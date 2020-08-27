@@ -11,13 +11,7 @@ module.exports = env => {
   return {
     mode: isProduction ? "production" : "development",
     entry: {
-      index: './src/index.js',
-      catalog: './src/catalog.js',
-      card: './src/card.js',
-      basket: './src/basket.js',
-      loginFavorite: './src/login-favorite.js',
-      loginProfile: './src/login-profile.js',
-      order: './src/order.js'
+      index: './src/index.js'
     },
     output: {
       path: path.join(__dirname, "dist"),
@@ -31,7 +25,7 @@ module.exports = env => {
       contentBase: path.join(__dirname, "dist"),
       watchContentBase: true,
       publicPath: '/',
-      openPage: 'login-favorite.html'
+      openPage: 'index.html'
     },
 
     plugins: [
@@ -45,6 +39,11 @@ module.exports = env => {
     module: {
       rules: [
         { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+        {
+          test: /\.tsx?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/,
+        },
         {
           test: /\.scss$/,
           use: [
