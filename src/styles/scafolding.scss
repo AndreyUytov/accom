@@ -44,3 +44,41 @@ input[type="radio"].visually-hidden {
 	clip: rect(0 0 0 0);
 	overflow: hidden;
 }
+
+.container {
+	width: 500px;
+	margin: 0 auto;
+}
+
+.btn {
+	width: 30px;
+	height: 30px;
+	background-color: transparent;
+	box-shadow: none;
+	border: none;
+	cursor: pointer;
+}
+
+.button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background-color: transparent;
+	border: 1px solid $akcent;
+	box-shadow: none;
+	cursor: pointer;
+	&:hover {
+		color: white;
+		background-color: $hoverBtnFon;
+	}
+}
+
+.checkbox {
+	position: absolute;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
