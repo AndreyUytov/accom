@@ -1,4 +1,8 @@
-class ElementsFactory {
+interface IElemFactory {
+  elem: HTMLElement
+}
+
+class ElementsFactory implements IElemFactory {
   element: HTMLElement
   constructor(tag: string, styleNames?: string, text?: string) {
     this.element = document.createElement(tag)

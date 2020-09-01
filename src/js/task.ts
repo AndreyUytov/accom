@@ -1,4 +1,6 @@
-export {ElementsFactory, CheckboxFactory, ButtonFactory} from './elements-factory.ts'
+export {ElementsFactory, CheckboxFactory, ButtonFactory} from './elements-factory'
+
+
 
 
 let index = 0
