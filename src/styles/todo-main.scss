@@ -74,6 +74,7 @@
 }
 
 .task-section__item {
+  position: relative;
   width: 100%;
   height: 40px;
 
@@ -112,6 +113,11 @@
 
 .item__marker-checkbox:checked + .marker-checkbox {
   background-image: url('./../images/svg/checkbox--checked.svg');
+}
+
+.item__marker-checkbox:checked ~ .item-text {
+  opacity: 0.3;
+  text-decoration: line-through;
 }
 
 .item-text {
@@ -187,4 +193,24 @@
 .total-table__total-tasks {
   padding: 0;
   margin: 0;
+}
+
+
+// modal-input
+
+.item__modal-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 400px;
+  height: 40px;
+
+  padding-left: 10px;
+  padding-right: 40px;
+
+  border: none;
+  border-bottom: 2px solid $akcent;
+
+  z-index: 100;
 }

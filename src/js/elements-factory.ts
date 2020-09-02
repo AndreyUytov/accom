@@ -1,5 +1,3 @@
-
-
 class ElementsFactory {
   protected element: HTMLElement
   constructor(tag: string, styleNames?: string, text?: string) {
@@ -24,6 +22,10 @@ class CheckboxFactory extends ElementsFactory {
     super('input', styleNames)
     this.element.type = 'checkbox'
   }
+
+  get elem () {
+    return this.element
+  }
 }
 
 class ButtonFactory extends ElementsFactory {
@@ -31,6 +33,10 @@ class ButtonFactory extends ElementsFactory {
   constructor (styleNames: string) {
     super('button', styleNames)
     this.element.type = 'button'
+  }
+
+  get elem () {
+    return this.element
   }
 }
 

@@ -8,5 +8,9 @@ const task = new Task('Задача')
 
 task.render()
 
-task.addDeleteOnClick(console.log)
+task.addDeleteListener(console.log)
+
+task.addRedactorListener(console.log)
+
+task.addCheckboxListener((...args) => console.log('из chekcbox-а ' + args))
 
