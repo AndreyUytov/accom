@@ -14,13 +14,13 @@ export default class Quest {
   constructor(task: string) {
     this.id = index
     index++
-    this.li = new ElementsFactory('li', 'task-section__item').elem
-    this.label = new ElementsFactory('label', 'item__chekbox-label').elem
-    this.checkbox = new CheckboxFactory('item__marker-checkbox visually-hidden').elem
-    this.checkboxMarker = new ElementsFactory('span', 'marker-checkbox checkbox').elem
-    this.textQuestion = new ElementsFactory('p', 'item-text', task).elem
-    this.redactBtn = new ButtonFactory('item-text-refactror__btn btn').elem
-    this.deleteBtn = new ButtonFactory('item-delete-task__btn btn').elem
+    this.li = new ElementsFactory('li', 'task-section__item').getElem()
+    this.label = new ElementsFactory('label', 'item__chekbox-label').getElem()
+    this.checkbox = new CheckboxFactory('item__marker-checkbox visually-hidden').getElem()
+    this.checkboxMarker = new ElementsFactory('span', 'marker-checkbox checkbox').getElem()
+    this.textQuestion = new ElementsFactory('p', 'item-text', task).getElem()
+    this.redactBtn = new ButtonFactory('item-text-refactror__btn btn').getElem()
+    this.deleteBtn = new ButtonFactory('item-delete-task__btn btn').getElem()
   }
 
   private createModalInput (cb: (id: number, taskText: string) => any) {

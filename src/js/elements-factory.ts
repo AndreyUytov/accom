@@ -10,7 +10,7 @@ class ElementsFactory {
     }
   }
 
-  get elem () {
+  getElem () {
     return this.element
   }
   
@@ -23,7 +23,7 @@ class CheckboxFactory extends ElementsFactory {
     this.element.type = 'checkbox'
   }
 
-  get elem () {
+  getElem () {
     return this.element
   }
 }
@@ -35,8 +35,8 @@ class ButtonFactory extends ElementsFactory {
     this.element.type = 'button'
   }
 
-  get elem () {
-    return this.element
+  getElem () {
+   return super.getElem()
   }
 }
 
