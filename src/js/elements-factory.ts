@@ -1,9 +1,7 @@
-interface IElemFactory {
-  elem: HTMLElement
-}
 
-class ElementsFactory implements IElemFactory {
-  element: HTMLElement
+
+class ElementsFactory {
+  protected element: HTMLElement
   constructor(tag: string, styleNames?: string, text?: string) {
     this.element = document.createElement(tag)
     if (styleNames) {

@@ -11,7 +11,7 @@ module.exports = env => {
   return {
     mode: isProduction ? "production" : "development",
     entry: {
-      index: './src/index.js'
+      index: './src/index.ts'
     },
     output: {
       path: path.join(__dirname, "dist"),
@@ -36,9 +36,13 @@ module.exports = env => {
       new webpack.HotModuleReplacementPlugin()
     ],
 
+    resolve: {
+      extensions: ['.ts', '.js']
+    },
+
     module: {
       rules: [
-        { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+        { test: /\.(js | ts)$/, exclude: /node_modules/, loader: "babel-loader" },
         {
           test: /\.tsx?$/,
           use: 'ts-loader',

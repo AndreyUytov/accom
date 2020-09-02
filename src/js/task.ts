@@ -1,40 +1,44 @@
-export {ElementsFactory, CheckboxFactory, ButtonFactory} from './elements-factory'
+import {ElementsFactory, CheckboxFactory, ButtonFactory} from './elements-factory'
+
 
 
 
 
 let index = 0
 
-class Quest {
+export default class Quest {
   readonly id:number
-  private li: HTMLLIElement
-  private label: HTMLLabelElement
-  private checkbox: HTMLInputElement
-  private checkboxMarker: HTMLSpanElement
-  private textQuestion: HTMLParagraphElement
-  private redactBtn: HTMLButtonElement
-  private deleteBtn: HTMLButtonElement
-  constructor() {
+  private li: HTMLElement
+  private label: HTMLElement
+  private checkbox: HTMLElement
+  private checkboxMarker: HTMLElement
+  private textQuestion: HTMLElement
+  private redactBtn: HTMLElement
+  private deleteBtn: HTMLElement
+  constructor(task: string) {
     this.id = index
     index++
-    this.li = document.createElement('li')
-    this.label = document.createElement('label')
-    this.checkbox = document.createElement('input')
-    this.checkboxMarker = document.createElement('span')
-    this.textQuestion = document.createElement('p')
-    this.redactBtn = document.createElement('button')
-    this.deleteBtn = document.createElement('button')
-
-    this.li.className = 'task-section__item'
-    this.label.className = 'item__chekbox-label'
-    this.checkbox.className = 'item__marker-checkbox visually-hidden'
-    this.checkboxMarker.className = 'marker-checkbox checkbox'
-    this.textQuestion.className = 'item-text'
-    this.redactBtn.className = 'item-text-refactror__btn btn'
-    this.deleteBtn.className = 'item-delete-task__btn btn'
+    this.li = new ElementsFactory('li', 'task-section__item').elem
+    this.label = new ElementsFactory('label', 'item__chekbox-label').elem
+    this.checkbox = new CheckboxFactory('item__marker-checkbox visually-hidden').elem
+    this.checkboxMarker = new ElementsFactory('span', 'marker-checkbox checkbox').elem
+    this.textQuestion = new ElementsFactory('p', 'item-text', task).elem
+    this.redactBtn = new ButtonFactory('item-text-refactror__btn btn').elem
+    this.deleteBtn = new ButtonFactory('item-delete-task__btn btn').elem
   }
 
-  get idElem () {
-    return this.id
+  addDeleteOnClick (cb: (id: number) => any) {
+    this.deleteBtn.onclick = () => cb(this.id)
+  }
+
+  addRedactorOnClick (cb: (id: number) => any) {
+    this.redactBtn.onclick = () => cb(this.id)
+  }
+
+  render () {
+    const ul = document.querySelector('.task-section__list')
+    this.label.append(this.checkbox, this.checkboxMarker, this.textQuestion)
+    this.li.append(this.label, this.redactBtn, this.deleteBtn)
+    ul.append(this.li)
   }
 }
