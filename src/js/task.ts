@@ -1,30 +1,36 @@
-import {ElementsFactory, CheckboxFactory, ButtonFactory} from './elements-factory'
+import {StandartLiCreator,
+        StandartCheckBoxMarkerCreator,
+        StandartTaskTextCreator,
+        StandartRedactButtonCreator,
+        StandartDeleteButtonCreator,
+        StandartInputCreator,
+        StandartCheckboxCreator,
+        StandartLabelCreator } from './standart-elements-creators'
 
-let index = 0
-
-export default class Quest {
+let id = 0
+export default class Task {
   readonly id:number
   private li: HTMLElement
   private label: HTMLElement
   private checkbox: HTMLInputElement
   private checkboxMarker: HTMLElement
   private textQuestion: HTMLElement
-  private redactBtn: HTMLElement
-  private deleteBtn: HTMLElement
+  private redactBtn: HTMLButtonElement
+  private deleteBtn: HTMLButtonElement
   constructor(task: string) {
-    this.id = index
-    index++
-    this.li = new ElementsFactory('li', 'task-section__item').getElem()
-    this.label = new ElementsFactory('label', 'item__chekbox-label').getElem()
-    this.checkbox = new CheckboxFactory('item__marker-checkbox visually-hidden').getElem()
-    this.checkboxMarker = new ElementsFactory('span', 'marker-checkbox checkbox').getElem()
-    this.textQuestion = new ElementsFactory('p', 'item-text', task).getElem()
-    this.redactBtn = new ButtonFactory('item-text-refactror__btn btn').getElem()
-    this.deleteBtn = new ButtonFactory('item-delete-task__btn btn').getElem()
+    this.id = id
+    id++
+    this.li = new StandartLiCreator().elem
+    this.label = new StandartLabelCreator().elem
+    this.checkbox = new StandartCheckboxCreator().elem
+    this.checkboxMarker = new StandartCheckBoxMarkerCreator().elem
+    this.textQuestion = new StandartTaskTextCreator(task).elem
+    this.redactBtn = new StandartRedactButtonCreator().elem
+    this.deleteBtn = new StandartDeleteButtonCreator().elem
   }
 
   private createModalInput (cb: (id: number, taskText: string) => any) {
-    const modalInput = document.createElement('input')
+    const modalInput: HTMLInputElement = new StandartInputCreator().elem
     modalInput.type = 'text'
     modalInput.className = 'item__modal-input'
     modalInput.value = this.textQuestion.textContent

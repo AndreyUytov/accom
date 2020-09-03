@@ -24,6 +24,7 @@
   }
   &:focus {
     border-bottom: 2px solid $akcent;
+    outline: none;
   }
 }
 
@@ -123,6 +124,8 @@
 .item-text {
   margin: 0;
   padding: 0;
+
+  -moz-user-select: none;
 }
 
 .item-text-refactror__btn {
@@ -213,4 +216,10 @@
   border-bottom: 2px solid $akcent;
 
   z-index: 100;
+
+  &:focus {
+    border: none;
+    border-bottom: 2px solid $akcent;
+    outline: none;
+  }
 }

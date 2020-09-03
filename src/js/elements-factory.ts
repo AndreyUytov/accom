@@ -1,4 +1,8 @@
-class ElementsFactory {
+import {
+  HTMLProductsInterface
+} from './types'
+
+export class StandartHTMLElement implements HTMLProductsInterface {
   protected element: HTMLElement
   constructor(tag: string, styleNames?: string, text?: string) {
     this.element = document.createElement(tag)
@@ -16,11 +20,11 @@ class ElementsFactory {
   
 }
 
-class CheckboxFactory extends ElementsFactory {
+export class StandartInput extends StandartHTMLElement {
   element: HTMLInputElement
-  constructor (styleNames: string) {
+  constructor (styleNames: string, type: string) {
     super('input', styleNames)
-    this.element.type = 'checkbox'
+    this.element.type = type
   }
 
   getElem () {
@@ -28,7 +32,7 @@ class CheckboxFactory extends ElementsFactory {
   }
 }
 
-class ButtonFactory extends ElementsFactory {
+export class StandartButton extends StandartHTMLElement {
   element: HTMLButtonElement
   constructor (styleNames: string) {
     super('button', styleNames)
@@ -36,8 +40,49 @@ class ButtonFactory extends ElementsFactory {
   }
 
   getElem () {
-   return super.getElem()
+   return this.element
   }
 }
 
-export {ElementsFactory, CheckboxFactory, ButtonFactory}
+export class StandartLi extends StandartHTMLElement {
+  element: HTMLLIElement
+  constructor(styleNames:string) {
+    super('li', styleNames)
+  }
+  getElem () {
+    return this.element
+   }
+}
+
+export class StandartLabel extends StandartHTMLElement {
+  element: HTMLLabelElement
+  constructor (styleName:  string) {
+    super('label', 'item__chekbox-label')
+  }
+
+  getElem () {
+    return this.element
+   }
+}
+
+export class StandartSpanMarker extends StandartHTMLElement {
+  element: HTMLSpanElement
+  constructor (styleName: string) {
+    super('span', styleName)
+  }
+
+  getElem () {
+    return this.element
+   }
+}
+
+export class StandartTaskText extends StandartHTMLElement {
+  element: HTMLParagraphElement
+  constructor (styleName: string, taskValue: string) {
+    super('p', styleName, taskValue)
+  }
+
+  getElem () {
+    return this.element
+   }
+}
