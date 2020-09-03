@@ -59,10 +59,13 @@ export default class Task {
     this.checkbox.onchange = () => cb(this.id, this.checkbox.checked)
   }
 
-  render () {
-    const ul = document.querySelector('.task-section__list')
+  private build () {
     this.label.append(this.checkbox, this.checkboxMarker, this.textQuestion)
     this.li.append(this.label, this.redactBtn, this.deleteBtn)
-    ul.append(this.li)
+  }
+
+  get taskItem () {
+    this.build()
+    return this.li
   }
 }

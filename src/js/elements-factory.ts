@@ -20,6 +20,10 @@ export class StandartHTMLElement implements HTMLProductsInterface {
   
 }
 
+export class StandartDiv extends StandartHTMLElement {
+  
+}
+
 export class StandartInput extends StandartHTMLElement {
   element: HTMLInputElement
   constructor (styleNames: string, type: string) {
