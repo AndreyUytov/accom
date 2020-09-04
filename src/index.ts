@@ -2,11 +2,11 @@ import './pages/index.html'
 
 import './styles/index.scss'
 
-import Task from './js/task'
+import Task from './js/components/task'
 
 const task = new Task('Задача')
 
-task.render()
+task.elem
 
 task.addDeleteListener(console.log)
 

@@ -20,10 +20,6 @@ export class StandartHTMLElement implements HTMLProductsInterface {
   
 }
 
-export class StandartDiv extends StandartHTMLElement {
-  
-}
-
 export class StandartInput extends StandartHTMLElement {
   element: HTMLInputElement
   constructor (styleNames: string, type: string) {
@@ -38,9 +34,12 @@ export class StandartInput extends StandartHTMLElement {
 
 export class StandartButton extends StandartHTMLElement {
   element: HTMLButtonElement
-  constructor (styleNames: string) {
+  constructor (styleNames: string, valueButton?: string) {
     super('button', styleNames)
     this.element.type = 'button'
+    if(valueButton) {
+      this.element.textContent = valueButton
+    }
   }
 
   getElem () {

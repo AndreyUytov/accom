@@ -5,7 +5,7 @@ import {StandartLiCreator,
         StandartDeleteButtonCreator,
         StandartInputCreator,
         StandartCheckboxCreator,
-        StandartLabelCreator } from './standart-elements-creators'
+        StandartLabelCreator } from './../utility/standart-elements-creators'
 
 let id = 0
 export default class Task {
@@ -41,7 +41,7 @@ export default class Task {
       modalInput.remove()
     }
 
-    modalInput.onkeydown = (evt) => evt.keyCode === 13 ? refactorTask () : null
+    modalInput.onkeydown = (evt) => evt.keyCode === 13 ? refactorTask() : null
     modalInput.onblur = refactorTask
     this.li.append(modalInput)
     modalInput.focus()
@@ -64,7 +64,7 @@ export default class Task {
     this.li.append(this.label, this.redactBtn, this.deleteBtn)
   }
 
-  get taskItem () {
+  get elem () {
     this.build()
     return this.li
   }
