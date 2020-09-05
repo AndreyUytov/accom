@@ -4,13 +4,8 @@ import './styles/index.scss'
 
 import Task from './js/components/task'
 
-const task = new Task('Задача')
+import store from './js/store/store'
 
-task.elem
+store.subscribe(() => console.log(store.getState()))
 
-task.addDeleteListener(console.log)
-
-task.addRedactorListener(console.log)
-
-task.addCheckboxListener((...args) => console.log('из chekcbox-а ' + args))
-
+store.dispatch({type: 'DELETE_TASK', taskId: 1})

@@ -1,6 +1,6 @@
 import {
   HTMLProductsInterface
-} from './types'
+} from './../types'
 
 export class StandartHTMLElement implements HTMLProductsInterface {
   protected element: HTMLElement
