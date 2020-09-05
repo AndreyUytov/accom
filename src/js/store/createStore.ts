@@ -7,8 +7,12 @@ export default function createStore (reducer: (state: any, action: {type:string,
     return currentState
   }
 
-  function subscribe(listener:()=>void) {
+  function subscribe(listener:()=>void): () => void {
     listeners.add(listener)
+
+    return () => {
+      listeners.delete(listener)
+    }
   }
 
   function dispatch(action: {type:string, [propname:string]: any}) {

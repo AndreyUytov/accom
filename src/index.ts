@@ -9,3 +9,4 @@ import store from './js/store/store'
 store.subscribe(() => console.log(store.getState()))
 
 store.dispatch({type: 'DELETE_TASK', taskId: 1})
+store.dispatch({type: 'DELETE_TASK', taskId: 4})
