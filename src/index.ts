@@ -18,13 +18,19 @@ store.subscribe(() => console.log(store.getState()))
 store.dispatch({type: 'DELETE_TASK', taskId: 1})
 store.dispatch({type: 'DELETE_TASK', taskId: 4})
 
+const tasks = store.getState().tasksReducer
+const tasksLength = tasks.length
+const completeTasks = tasks.filter(({isDone}: {isDone: boolean}) => isDone === true).length
+
 const rootElem = document.body.querySelector('.root')
 
 const creatorTask = new TaskSectionCreator().elem
-const TaskSectionList = new TaskSection([{taskId:0,taskValue:'hello',isDone:true}]).elem
+const TaskSectionList = new TaskSection(tasks).elem
+
 const main = new StandartMainCreator().elem
 main.append(creatorTask, TaskSectionList)
+
 const header = new Header().elem
-const footer = new Footer(1,0).elem
+const footer = new Footer(tasksLength, completeTasks).elem
 
 rootElem.append(header, main, footer)

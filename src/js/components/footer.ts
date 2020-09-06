@@ -23,8 +23,8 @@ export default class Footer {
     this.wrapperSectionLeft = new StandartDivCreator('sort-task__wrapper').elem
     this.btnComplete = new StandartButtonCreator('sort-task-section__complete-all-button button', 'All complete').elem
     this.btnRemoveComplete = new StandartButtonCreator('sort-task-section__remove-comlete-button button', 'Remove comlete').elem
-    this.totalTasks = new StandartTaskTextCreator(tasksLength.toString(), 'total-table__total-tasks').elem
-    this.totalComlete = new StandartTaskTextCreator(tasksCompleteLength.toString(), 'total-table__total-complete').elem
+    this.totalTasks = new StandartTaskTextCreator(`Total tasks: ${tasksLength.toString()}`, 'total-table__total-tasks').elem
+    this.totalComlete = new StandartTaskTextCreator(`Total complete: ${tasksCompleteLength.toString()}`, 'total-table__total-complete').elem
     this.build()
   }
 
