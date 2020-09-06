@@ -60,7 +60,7 @@ export class StandartDivCreator extends ElementCreator {
   }
 }
 
-export class StandartSection extends ElementCreator {
+export class StandartSectionCreator extends ElementCreator {
   classNames: string
   constructor (classNames:string) {
     super()
@@ -68,6 +68,21 @@ export class StandartSection extends ElementCreator {
   }
   factoryMethod(): StandartHTMLElement {
     return new StandartHTMLElement('section', this.classNames)
+  }
+
+  get elem () {
+    return this.factoryMethod().getElem()
+  }
+}
+
+export class StandartUlCreator extends ElementCreator {
+  classNames: string
+  constructor (classNames:string) {
+    super()
+    this.classNames = classNames
+  }
+  factoryMethod(): StandartHTMLElement {
+    return new StandartHTMLElement('ul', this.classNames)
   }
 
   get elem () {
@@ -84,9 +99,44 @@ export class StandartInputCreator extends ElementCreator {
   }
 }
 
+export class StandartTitleCreator extends ElementCreator {
+  private titleValue: string
+  constructor(titleValue: string) {
+    super()
+    this.titleValue = titleValue
+  }
+  factoryMethod(): StandartHTMLElement {
+    return new StandartHTMLElement('h1', 'todo-header__title', this.titleValue)
+  }
+  get elem() {
+    return this.factoryMethod().getElem()
+  }
+}
+
+export class StandartSubTitleCreator extends ElementCreator {
+  private titleValue: string
+  constructor(titleValue: string) {
+    super()
+    this.titleValue = titleValue
+  }
+  factoryMethod(): StandartHTMLElement {
+    return new StandartHTMLElement('h3', 'todo-header__subtitle', this.titleValue)
+  }
+  get elem() {
+    return this.factoryMethod().getElem()
+  }
+}
+
 export class StandartCheckboxCreator extends ElementCreator {
+  private isDone: boolean
+  constructor (isDone: boolean) {
+    super()
+    this.isDone = isDone
+  }
   factoryMethod(): StandartInput {
-    return new StandartInput('item__marker-checkbox visually-hidden', 'checkbox')
+    const checkBox =  new StandartInput('item__marker-checkbox visually-hidden', 'checkbox')
+    checkBox.getElem().checked = this.isDone
+    return checkBox
   }
   get elem () {
     return this.factoryMethod().getElem()

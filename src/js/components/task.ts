@@ -5,9 +5,10 @@ import {StandartLiCreator,
         StandartDeleteButtonCreator,
         StandartInputCreator,
         StandartCheckboxCreator,
-        StandartLabelCreator } from './../utility/standart-elements-creators'
+        StandartLabelCreator 
+} from './../utility/standart-elements-creators'
+import {TaskInterface} from './../types'
 
-let id = 0
 export default class Task {
   readonly id:number
   private li: HTMLElement
@@ -17,16 +18,16 @@ export default class Task {
   private textQuestion: HTMLElement
   private redactBtn: HTMLButtonElement
   private deleteBtn: HTMLButtonElement
-  constructor(task: string) {
-    this.id = id
-    id++
+  constructor({isDone, taskId, taskValue}: TaskInterface) {
+    this.id = taskId
     this.li = new StandartLiCreator().elem
     this.label = new StandartLabelCreator().elem
-    this.checkbox = new StandartCheckboxCreator().elem
+    this.checkbox = new StandartCheckboxCreator(isDone).elem
     this.checkboxMarker = new StandartCheckBoxMarkerCreator().elem
-    this.textQuestion = new StandartTaskTextCreator(task).elem
+    this.textQuestion = new StandartTaskTextCreator(taskValue).elem
     this.redactBtn = new StandartRedactButtonCreator().elem
     this.deleteBtn = new StandartDeleteButtonCreator().elem
+    this.build()
   }
 
   private createModalInput (cb: (id: number, taskText: string) => any) {
@@ -65,7 +66,6 @@ export default class Task {
   }
 
   get elem () {
-    this.build()
     return this.li
   }
 }
