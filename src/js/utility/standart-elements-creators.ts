@@ -91,8 +91,13 @@ export class StandartUlCreator extends ElementCreator {
 }
 
 export class StandartInputCreator extends ElementCreator {
+  className:string
+  constructor(className:string = 'item__marker-checkbox visually-hidden') {
+    super()
+    this.className = className
+  }
   factoryMethod(): StandartInput {
-    return new StandartInput('item__marker-checkbox visually-hidden', 'text')
+    return new StandartInput(this.className, 'text')
   }
   get elem () {
     return this.factoryMethod().getElem()
@@ -153,8 +158,13 @@ export class StandartLiCreator extends ElementCreator {
 }
 
 export class StandartLabelCreator extends ElementCreator {
+  className: string
+  constructor(className: string = 'task-section__item'){
+    super()
+    this.className = className
+  }
   factoryMethod (): StandartLabel {
-    return new StandartLabel ('task-section__item')
+    return new StandartLabel (this.className)
   }
   get elem () {
     return this.factoryMethod().getElem()
@@ -172,12 +182,14 @@ export class StandartCheckBoxMarkerCreator extends ElementCreator {
 
 export class StandartTaskTextCreator extends ElementCreator {
   taskValue: string
-  constructor(taskValue: string) {
+  className: string
+  constructor(taskValue: string, className: string = 'item-text') {
     super()
     this.taskValue = taskValue
+    this.className = className
   }
   factoryMethod(): StandartTaskText {
-    return new StandartTaskText('item-text', this.taskValue)
+    return new StandartTaskText(this.className, this.taskValue)
   }
 
   get elem () {
@@ -187,8 +199,8 @@ export class StandartTaskTextCreator extends ElementCreator {
 
 export class StandartButtonCreator extends ElementCreator {
   classNames: string
-  valueButton: string
-  constructor(classNames: string, valueButton: string) {
+  valueButton?: string
+  constructor(classNames: string, valueButton?: string) {
     super()
     this.classNames = classNames
     this.valueButton = valueButton
