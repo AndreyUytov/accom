@@ -16,10 +16,11 @@ const rootElem = document.body.querySelector('.root')
 
 export default class Controller {
   store: StoreInterface
-  view: HTMLElement
   header: Header
   main: StandartMainCreator
   footer: Footer
+  taskCreatorSection: TaskSectionCreator
+  taskSection: TaskSection
   constructor () {
     const preloadedState = {
       tasksReducer: [
@@ -36,23 +37,42 @@ export default class Controller {
     this.main = new StandartMainCreator()
     this.footer = new Footer(tasks.length, completeTasks)
 
-    this.updateFooter()
-    this.footer.probaDispatch(this.removeTask)
+    this.removeTaskAction = this.removeTaskAction.bind(this)
+    this.removeAllCompleteAction = this.removeAllCompleteAction.bind(this)
+    this.doAllTasksCompleteAction = this.doAllTasksCompleteAction.bind(this)
+
+    this.footer.onBtnCompleteClick(this.doAllTasksCompleteAction)
+    this.footer.onBtnRemoveCompleteClick(this.removeAllCompleteAction)
+
+    this.subscribeFooter()
   }
   render() {
     rootElem.append(this.header.elem, this.main.elem, this.footer.elem)
   }
 
-  private updateFooter() {
+  private subscribeFooter() {
     this.store.subscribe(() => {
-      this.footer.update(this.store.getState().tasksReducer.length, this.store.getState().tasksReducer.filter(({isDone}: {isDone: boolean}) => isDone === true).length)
+      this.footer.update(this.store.getState().tasksReducer.length,
+       this.store.getState().tasksReducer.filter(({isDone}: {isDone: boolean}) => isDone === true).length)
     })
   }
 
-  removeTask(id: number = 1) {
+  removeTaskAction(id: number) {
     this.store.dispatch({
       type: 'REMOVE_TASK',
       taskId: id
+    })
+  }
+
+  removeAllCompleteAction() {
+    this.store.dispatch({
+      type: 'REMOVE_COMPLETE_TASKS'
+    })
+  }
+
+  doAllTasksCompleteAction() {
+    this.store.dispatch({
+      type: 'DO_ALL_TASKS_COMPLETE'
     })
   }
 

@@ -5,6 +5,7 @@ import {
   StandartButtonCreator,
   StandartTaskTextCreator
 } from './../utility/standart-elements-creators'
+import Controller from '../controller'
 
 export default class Footer {
   private footer: HTMLElement
@@ -39,8 +40,11 @@ export default class Footer {
     this.totalTasks.textContent = `Total tasks: ${totalTasks}`
   }
 
-  public probaDispatch(cb:() => any) {
-    this.btnComplete.onclick =() => cb()
+  public onBtnCompleteClick(cb:() => any) {
+    this.btnComplete.onclick = () => cb()
+  }
+  public onBtnRemoveCompleteClick(cb:() => any) {
+    this.btnRemoveComplete.onclick = () => cb()
   }
   get elem() {
     return this.footer

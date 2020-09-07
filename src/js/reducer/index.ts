@@ -11,7 +11,7 @@ function probaReducer(state: any = {}, action: {type: string, [propname:string]:
   }
 }
 
-function tasksReducer (state: any = {}, action: {type: string, [propname:string]: any}) {
+function tasksReducer (state: any [] = [], action: {type: string, [propname:string]: any}) {
   switch (action.type) {
     case 'ADD_TASK':
       return {
@@ -24,6 +24,21 @@ function tasksReducer (state: any = {}, action: {type: string, [propname:string]
           }
           return result
         }, [])
+    case 'DO_ALL_TASKS_COMPLETE':
+      return state.reduce((result: TaskInterface [], elem: TaskInterface) => {
+        if (elem.isDone !== true) {
+          elem.isDone = true
+          result.push(elem)
+        } else result.push(elem)
+        return result
+      },[])
+    case 'REMOVE_COMPLETE_TASKS':
+      return state.reduce((result: TaskInterface [], elem: TaskInterface) => {
+        if (elem.isDone !== true) {
+          result.push(elem)
+        }
+        return result
+      }, [])
     default:
       return state
   }
