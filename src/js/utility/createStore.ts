@@ -21,6 +21,7 @@ export default function createStore (reducer: (state: any, action: {type:string,
     for (let listener of listeners.values()){
       listener()
     }
+    return action
   }
 
   dispatch({type: 'INIT'})

@@ -1,3 +1,5 @@
+import { TaskInterface } from './../types'
+
 function probaReducer(state: any = {}, action: {type: string, [propname:string]: any}) {
   switch (action.type) {
     case 'DELETE_TASK':
@@ -15,6 +17,13 @@ function tasksReducer (state: any = {}, action: {type: string, [propname:string]
       return {
         ...state, AdedTaskId: action.taskId
       }
+    case 'REMOVE_TASK':
+      return state.reduce((result: TaskInterface [], elem: TaskInterface) => {
+          if (elem.taskId !== action.taskId) {
+            result.push(elem)
+          }
+          return result
+        }, [])
     default:
       return state
   }

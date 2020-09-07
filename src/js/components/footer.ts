@@ -23,16 +23,24 @@ export default class Footer {
     this.wrapperSectionLeft = new StandartDivCreator('sort-task__wrapper').elem
     this.btnComplete = new StandartButtonCreator('sort-task-section__complete-all-button button', 'All complete').elem
     this.btnRemoveComplete = new StandartButtonCreator('sort-task-section__remove-comlete-button button', 'Remove comlete').elem
-    this.totalTasks = new StandartTaskTextCreator(`Total tasks: ${tasksLength.toString()}`, 'total-table__total-tasks').elem
-    this.totalComlete = new StandartTaskTextCreator(`Total complete: ${tasksCompleteLength.toString()}`, 'total-table__total-complete').elem
+    this.totalTasks = new StandartTaskTextCreator(`Total tasks: ${tasksLength}`, 'total-table__total-tasks').elem
+    this.totalComlete = new StandartTaskTextCreator(`Total complete: ${tasksCompleteLength}`, 'total-table__total-complete').elem
     this.build()
   }
 
-  build() {
+  private build() {
     this.sectionRight.append(this.totalComlete, this.totalTasks)
     this.wrapperSectionLeft.append(this.btnComplete, this.btnRemoveComplete)
     this.sectionLeft.append(this.wrapperSectionLeft)
     this.footer.append(this.sectionLeft, this.sectionRight)
+  }
+  public update(totalTasks: number, totalComplete: number) {
+    this.totalComlete.textContent = `Total complete: ${totalComplete}`
+    this.totalTasks.textContent = `Total tasks: ${totalTasks}`
+  }
+
+  public probaDispatch(cb:() => any) {
+    this.btnComplete.onclick =() => cb()
   }
   get elem() {
     return this.footer

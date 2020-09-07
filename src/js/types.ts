@@ -17,3 +17,14 @@ export interface TaskInterface {
   taskValue: string,
   isDone: boolean
 }
+
+export interface ActionInterface {
+  type: string,
+  [propname:string]: any
+}
+
+export interface StoreInterface {
+  getState(): {[propname: string]: any},
+  subscribe(cb:()=>void): ()=>void,
+  dispatch(action: ActionInterface): ActionInterface
+}
