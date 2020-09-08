@@ -23,13 +23,14 @@ export default class Controller {
         {taskId:0,taskValue:'hello',isDone:true},
         {taskId:1,taskValue:'world',isDone:false},
         {taskId:2,taskValue:'!',isDone:false}
-      ]
+      ],
+      counter: 5
     }
     this.store = createStore(rootReducer, preloadedState)   
     let tasks = this.store.getState().tasks
     let completeTasks = tasks.filter(({isDone}: {isDone: boolean}) => isDone === true).length
 
-    this.store.subscribe(() => console.log(this.store.getState().tasks))
+    this.store.subscribe(() => console.log(this.store.getState().tasks, this.store.getState().counter))
 
     this.removeTaskAction = this.removeTaskAction.bind(this)
     this.checkTaskAction = this.checkTaskAction.bind(this)
@@ -47,6 +48,8 @@ export default class Controller {
       elem.onCheckboxChange(this.checkTaskAction)
       elem.onRedactBtnClick(this.redactTaskAction)
     })
+    this.taskCreatorSection = new TaskSectionCreator()
+    this.taskCreatorSection.onTaskCreatorBtnClick(() => this.addTaskAction())
 
     this.footer.onBtnCompleteClick(this.doAllTasksCompleteAction)
     this.footer.onBtnRemoveCompleteClick(this.removeAllCompleteAction)
@@ -56,7 +59,7 @@ export default class Controller {
   }
 
   render() {
-    this.main.append(this.taskSection.elem)
+    this.main.append(this.taskCreatorSection.elem, this.taskSection.elem)
     document.body.append(this.header.elem, this.main, this.footer.elem)
   }
 

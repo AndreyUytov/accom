@@ -1,11 +1,10 @@
 import { TaskInterface, ActionInterface } from './../types'
 
-function probaReducer(state: any = {}, action: {type: string, [propname:string]: any}) {
+function counter(state: number = 0, action: {type: string, [propname:string]: any}) {
   switch (action.type) {
-    case 'DELETE_TASK':
-      return {
-        ...state, deleteTaskId: action.taskId
-      }
+    case 'ADD_NEW_TASK':
+     state++
+     return state
     default:
       return state
   }
@@ -70,7 +69,7 @@ function tasks (state: TaskInterface [] = [], action: ActionInterface) {
 
 export default function rootReducer (state: any = {}, action: ActionInterface) {
   return {
-    probaReducer: probaReducer(state.probaReducer, action),
+    counter: counter(state.counter, action),
     tasks: tasks(state.tasks, action)
   }
 }

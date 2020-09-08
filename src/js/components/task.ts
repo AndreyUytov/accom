@@ -65,19 +65,6 @@ export default class Task {
     this.li.append(this.label, this.redactBtn, this.deleteBtn)
   }
 
-  update ({isDone, taskValue}: TaskInterface) {
-    let prevValues = {
-      isDone: this.checkbox.checked,
-      taskValue: this.textQuestion.textContent
-    }
-    if (prevValues.isDone !== isDone) {
-      this.checkbox.checked = isDone
-    }
-    if (prevValues.taskValue !== taskValue) {
-      this.textQuestion.textContent = taskValue
-    }
-  }
-
   get elem () {
     return this.li
   }

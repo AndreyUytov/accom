@@ -29,6 +29,11 @@ export default class TaskSectionCreator {
     this.section.append(this.wrapper)
   }
 
+  public onTaskCreatorBtnClick (cb:(taskValue: string) => any) {
+    this.button.onclick = () => cb(this.input.value.trim())
+    this.input.value = ''
+  }
+
   get elem() {
     return this.section
   }
