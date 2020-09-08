@@ -1,4 +1,4 @@
-import { TaskInterface } from './../types'
+import { TaskInterface, ActionInterface } from './../types'
 
 function probaReducer(state: any = {}, action: {type: string, [propname:string]: any}) {
   switch (action.type) {
@@ -11,42 +11,66 @@ function probaReducer(state: any = {}, action: {type: string, [propname:string]:
   }
 }
 
-function tasksReducer (state: any [] = [], action: {type: string, [propname:string]: any}) {
+function tasks (state: TaskInterface [] = [], action: ActionInterface) {
   switch (action.type) {
-    case 'ADD_TASK':
-      return {
-        ...state, AdedTaskId: action.taskId
-      }
+    case 'ADD_NEW_TASK':
+      return [...state, {
+        taskId: action.id,
+        taskValue: action.taskValue,
+        isDone: false
+      }]
+
+    case 'CHECK_TASK':
+      return state.reduce((result: TaskInterface[], elem) => {
+        if (elem.taskId === action.id) {
+          elem.isDone = action.isDone
+          result.push(elem)
+        } else result.push(elem)
+        return result
+      }, [])
+
     case 'REMOVE_TASK':
-      return state.reduce((result: TaskInterface [], elem: TaskInterface) => {
-          if (elem.taskId !== action.taskId) {
+      return state.reduce((result: TaskInterface [], elem) => {
+          if (elem.taskId !== action.id) {
             result.push(elem)
           }
           return result
         }, [])
+
+    case 'REDACT_TASK':
+      return state.reduce((result: TaskInterface [], elem) => {
+        if (elem.taskId === action.id) {
+          elem.taskValue = action.newValue
+          result.push(elem)
+        } else result.push(elem)
+        return result
+      }, [])
+
     case 'DO_ALL_TASKS_COMPLETE':
-      return state.reduce((result: TaskInterface [], elem: TaskInterface) => {
+      return state.reduce((result: TaskInterface [], elem) => {
         if (elem.isDone !== true) {
           elem.isDone = true
           result.push(elem)
         } else result.push(elem)
         return result
       },[])
+
     case 'REMOVE_COMPLETE_TASKS':
-      return state.reduce((result: TaskInterface [], elem: TaskInterface) => {
+      return state.reduce((result: TaskInterface [], elem) => {
         if (elem.isDone !== true) {
           result.push(elem)
         }
         return result
       }, [])
+
     default:
       return state
   }
 }
 
-export default function rootReducer (state: any = {}, action: {type: string, [propname:string]: any}) {
+export default function rootReducer (state: any = {}, action: ActionInterface) {
   return {
     probaReducer: probaReducer(state.probaReducer, action),
-    tasksReducer: tasksReducer(state.tasksReducer, action)
+    tasks: tasks(state.tasks, action)
   }
 }

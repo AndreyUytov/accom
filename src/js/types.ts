@@ -23,6 +23,10 @@ export interface ActionInterface {
   [propname:string]: any
 }
 
+export interface TasksByIdInterface {
+  [propname: string]: TaskInterface
+}
+
 export interface StoreInterface {
   getState(): {[propname: string]: any},
   subscribe(cb:()=>void): ()=>void,

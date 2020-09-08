@@ -30,7 +30,7 @@ export default class Task {
     this.build()
   }
 
-  private createModalInput (cb: (id: number, taskText: string) => any) {
+  private createModalInput (cb: (id: number, newValue: string) => any) {
     const modalInput: HTMLInputElement = new StandartInputCreator().elem
     modalInput.type = 'text'
     modalInput.className = 'item__modal-input'
@@ -38,7 +38,7 @@ export default class Task {
 
     const refactorTask = () => {
       this.textQuestion.textContent = modalInput.value.trim()
-      cb(this.id, modalInput.value)
+      cb(this.id, this.textQuestion.textContent)
       modalInput.remove()
     }
 
@@ -48,21 +48,34 @@ export default class Task {
     modalInput.focus()
   }
 
-  addDeleteListener (cb: (id: number) => any) {
+  onDeleteBtnClick (cb: (id: number) => any) {
     this.deleteBtn.onclick = () => cb(this.id)
   }
 
-  addRedactorListener (cb: (id: number, taskText: string) => any) {
+  onRedactBtnClick (cb: (id: number, newValue: string) => any) {
     this.redactBtn.onclick = () => this.createModalInput(cb)
   }
 
-  addCheckboxListener (cb: (id: number, isChecked: boolean) => any) {
+  onCheckboxChange (cb: (id: number, isChecked: boolean) => any) {
     this.checkbox.onchange = () => cb(this.id, this.checkbox.checked)
   }
 
   private build () {
     this.label.append(this.checkbox, this.checkboxMarker, this.textQuestion)
     this.li.append(this.label, this.redactBtn, this.deleteBtn)
+  }
+
+  update ({isDone, taskValue}: TaskInterface) {
+    let prevValues = {
+      isDone: this.checkbox.checked,
+      taskValue: this.textQuestion.textContent
+    }
+    if (prevValues.isDone !== isDone) {
+      this.checkbox.checked = isDone
+    }
+    if (prevValues.taskValue !== taskValue) {
+      this.textQuestion.textContent = taskValue
+    }
   }
 
   get elem () {

@@ -5,7 +5,6 @@ import {
   StandartButtonCreator,
   StandartTaskTextCreator
 } from './../utility/standart-elements-creators'
-import Controller from '../controller'
 
 export default class Footer {
   private footer: HTMLElement
