@@ -49,7 +49,7 @@ export default class Task {
   }
 
   onDeleteBtnClick (cb: (id: number) => any) {
-    this.deleteBtn.onclick = () => cb(this.id)
+    this.deleteBtn.onclick = () => {cb(this.id); this.elem.remove()}
   }
 
   onRedactBtnClick (cb: (id: number, newValue: string) => any) {

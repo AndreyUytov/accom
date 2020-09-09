@@ -12,8 +12,8 @@ import Task from './task'
 
 export default class TaskSection {
   private section: HTMLElement
-  private ul: HTMLElement
-  private tasksView: Task []
+  public ul: HTMLElement
+  public tasksView: Task []
   constructor (tasks: TaskInterface []) {
     this.section = new StandartSectionCreator('task-section').elem
     this.ul = new StandartUlCreator('task-section__list').elem
@@ -41,21 +41,26 @@ export default class TaskSection {
     // for remove Task
     if (tasks.length < this.tasksView.length) {
       const taskIds = tasks.map((elem) => elem.taskId)
-      this.tasksView.forEach((elem) => {
+      this.tasksView.forEach((elem, i) => {
         if (!taskIds.includes(elem.id)) {
           elem.elem.remove()
+          this.tasksView.splice(i, 1)
         }
       })
-    }
-     if (tasks.length > this.tasksView.length) {
-       const newTask = new Task(tasks.pop())
+    } else if (tasks.length > this.tasksView.length) {
+       const newTask = new Task(tasks[tasks.length - 1])
        newTask.onCheckboxChange(onCheckboxChange)
        newTask.onRedactBtnClick(onRedactBtnClick)
        newTask.onDeleteBtnClick(onDeleteBtnClick)
+       this.tasksView.push(newTask)
        this.ul.prepend(newTask.elem)
+     } else {
+      this.tasksView = tasks.map((elem) => new Task(elem))
+      this.ul.innerHTML = ``
+      this.ul.append(...this.tasksView.map((task) => task.elem))
      }
 
      
   }
-
+  // public update(){}
 }

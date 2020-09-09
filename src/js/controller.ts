@@ -9,6 +9,7 @@ import rootReducer from './reducer/index'
 import {StoreInterface,
         TaskInterface
 } from './types'
+import Task from './components/task'
 
 export default class Controller {
   store: StoreInterface
@@ -48,6 +49,19 @@ export default class Controller {
       elem.onCheckboxChange(this.checkTaskAction)
       elem.onRedactBtnClick(this.redactTaskAction)
     })
+    // this.taskSection.update = () => {
+    //   let taskFromStore = this.store.getState().tasks
+    //   let tasksFromView = this.taskSection.tasksView
+    //   if (taskFromStore.length > tasksFromView.length) {
+    //     console.log(taskFromStore, tasksFromView)
+    //     const newTask = new Task(taskFromStore[taskFromStore.length - 1])
+    //     newTask.onCheckboxChange(this.checkTaskAction)
+    //     newTask.onRedactBtnClick(this.redactTaskAction)
+    //     newTask.onDeleteBtnClick(this.removeTaskAction)
+    //     this.taskSection.tasksView.push(newTask)
+    //     this.taskSection.ul.prepend(newTask.elem)
+    //   }
+    // }
     this.taskCreatorSection = new TaskSectionCreator()
     this.taskCreatorSection.onTaskCreatorBtnClick(this.addTaskAction)
 
@@ -67,7 +81,9 @@ export default class Controller {
     this.store.subscribe(() => {
       this.taskSection.update(this.store.getState().tasks,
        this.checkTaskAction, this.redactTaskAction, this.removeTaskAction)
-    })
+      // this.taskSection.update()
+    }
+    )
   }
 
   private subscribeFooter() {

@@ -31,7 +31,9 @@ export default class TaskSectionCreator {
 
   public onTaskCreatorBtnClick (cb:(taskValue: string) => any) {
     const addNewTask = () => {
-      cb(this.input.value.trim())
+      if(this.input.value.trim()) {
+        cb(this.input.value.trim())
+      }
       this.input.value = ''
     }
     this.button.onclick = addNewTask
