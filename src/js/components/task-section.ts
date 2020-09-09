@@ -3,7 +3,10 @@ import {
   StandartUlCreator
 } from './../utility/standart-elements-creators'
 import {
-  TaskInterface
+  TaskInterface,
+  CheckBoxActionCreator,
+  RedactActionCreator,
+  RemoveActionCreator
 } from './../types'
 import Task from './task'
 
@@ -29,9 +32,14 @@ export default class TaskSection {
     return this.tasksView
   }
 
-  public update(tasks: TaskInterface []) {
+  get ulElement() {
+    return this.ul
+  }
+
+  public update(tasks: TaskInterface [], onCheckboxChange: CheckBoxActionCreator,
+    onRedactBtnClick: RedactActionCreator, onDeleteBtnClick: RemoveActionCreator) {
     // for remove Task
-    if (tasks.length !== this.tasksView.length) {
+    if (tasks.length < this.tasksView.length) {
       const taskIds = tasks.map((elem) => elem.taskId)
       this.tasksView.forEach((elem) => {
         if (!taskIds.includes(elem.id)) {
@@ -39,6 +47,15 @@ export default class TaskSection {
         }
       })
     }
+     if (tasks.length > this.tasksView.length) {
+       const newTask = new Task(tasks.pop())
+       newTask.onCheckboxChange(onCheckboxChange)
+       newTask.onRedactBtnClick(onRedactBtnClick)
+       newTask.onDeleteBtnClick(onDeleteBtnClick)
+       this.ul.prepend(newTask.elem)
+     }
+
+     
   }
 
 }

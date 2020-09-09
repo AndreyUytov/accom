@@ -49,7 +49,7 @@ export default class Controller {
       elem.onRedactBtnClick(this.redactTaskAction)
     })
     this.taskCreatorSection = new TaskSectionCreator()
-    this.taskCreatorSection.onTaskCreatorBtnClick(() => this.addTaskAction())
+    this.taskCreatorSection.onTaskCreatorBtnClick(this.addTaskAction)
 
     this.footer.onBtnCompleteClick(this.doAllTasksCompleteAction)
     this.footer.onBtnRemoveCompleteClick(this.removeAllCompleteAction)
@@ -65,7 +65,8 @@ export default class Controller {
 
   private subscribeTaskSection() {
     this.store.subscribe(() => {
-      this.taskSection.update(this.store.getState().tasks)
+      this.taskSection.update(this.store.getState().tasks,
+       this.checkTaskAction, this.redactTaskAction, this.removeTaskAction)
     })
   }
 
@@ -91,7 +92,8 @@ export default class Controller {
     })
   }
   
-  addTaskAction(id: number, taskValue: string) {
+  addTaskAction(taskValue: string) {
+    let id = this.store.getState().counter
     this.store.dispatch({
       type: 'ADD_NEW_TASK',
       taskValue,

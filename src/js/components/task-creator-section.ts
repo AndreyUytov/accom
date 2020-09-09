@@ -30,8 +30,12 @@ export default class TaskSectionCreator {
   }
 
   public onTaskCreatorBtnClick (cb:(taskValue: string) => any) {
-    this.button.onclick = () => cb(this.input.value.trim())
-    this.input.value = ''
+    const addNewTask = () => {
+      cb(this.input.value.trim())
+      this.input.value = ''
+    }
+    this.button.onclick = addNewTask
+    this.input.onkeydown = (evt) => evt.keyCode === 13 ? addNewTask() : null
   }
 
   get elem() {

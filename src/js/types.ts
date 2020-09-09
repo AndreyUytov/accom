@@ -32,3 +32,7 @@ export interface StoreInterface {
   subscribe(cb:()=>void): ()=>void,
   dispatch(action: ActionInterface): ActionInterface
 }
+
+export type CheckBoxActionCreator = (id: number, isDone: boolean) => void
+export type RedactActionCreator = (id: number, value: string) => void
+export type RemoveActionCreator = (id: number) => void
