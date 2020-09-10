@@ -4,63 +4,64 @@ import {
 } from './../utility/standart-elements-creators'
 import {
   TaskInterface,
-  CheckBoxActionCreator,
-  RedactActionCreator,
-  RemoveActionCreator
+  CheckBoxAction,
+  RedactAction,
+  RemoveAction
 } from './../types'
 import Task from './task'
 
 export default class TaskSection {
   private section: HTMLElement
-  public ul: HTMLElement
-  public tasksView: Task []
-  constructor (tasks: TaskInterface []) {
+  private ul: HTMLElement
+  private tasksView: Task []
+  constructor (tasks: TaskInterface [], onCheckboxChange: CheckBoxAction,
+    onRedactBtnClick: RedactAction, onDeleteBtnClick: RemoveAction) {
     this.section = new StandartSectionCreator('task-section').elem
     this.ul = new StandartUlCreator('task-section__list').elem
-    this.tasksView = tasks.map((elem) => new Task(elem))
+    this.tasksView = tasks.map((elem) => new Task(elem, onCheckboxChange, onRedactBtnClick, onDeleteBtnClick))
     this.build()
   }
+
   private build() {
-    this.ul.append(...this.tasksView.map((task) => task.elem))
+    this.ul.prepend(...this.tasksView.map((task) => task.elem))
     this.section.append(this.ul)
   }
+
   get elem() {
     return this.section
   }
 
-  get tasks () {
-    return this.tasksView
+  private sortTaskView (a:TaskInterface,b:TaskInterface) {
+    if (a.isDone === true && b.isDone === false) return 1
+    else if ((a.isDone === true && b.isDone === true) || (a.isDone === false && b.isDone === false)) return 0
+    else return -1
   }
 
-  get ulElement() {
-    return this.ul
-  }
-
-  public update(tasks: TaskInterface [], onCheckboxChange: CheckBoxActionCreator,
-    onRedactBtnClick: RedactActionCreator, onDeleteBtnClick: RemoveActionCreator) {
+  public update(tasks: TaskInterface [], onCheckboxChange: CheckBoxAction,
+    onRedactBtnClick: RedactAction, onDeleteBtnClick: RemoveAction) {
     // for remove Task
     if (tasks.length < this.tasksView.length) {
-      const taskIds = tasks.map((elem) => elem.taskId)
+      let taskIds = tasks.map((elem) => elem.taskId)
       this.tasksView.forEach((elem, i) => {
         if (!taskIds.includes(elem.id)) {
           elem.elem.remove()
-          this.tasksView.splice(i, 1)
+          this.tasksView = tasks.map((elem) => new Task(elem, onCheckboxChange, onRedactBtnClick, onDeleteBtnClick))
+          console.log('from 1 st if TaskSection')
         }
       })
+    // For add new Task
     } else if (tasks.length > this.tasksView.length) {
-       const newTask = new Task(tasks[tasks.length - 1])
-       newTask.onCheckboxChange(onCheckboxChange)
-       newTask.onRedactBtnClick(onRedactBtnClick)
-       newTask.onDeleteBtnClick(onDeleteBtnClick)
+       const newTask = new Task(tasks[tasks.length - 1],onCheckboxChange, onRedactBtnClick, onDeleteBtnClick)
        this.tasksView.push(newTask)
        this.ul.prepend(newTask.elem)
+    // For another ...
      } else {
-      this.tasksView = tasks.map((elem) => new Task(elem))
-      this.ul.innerHTML = ``
-      this.ul.append(...this.tasksView.map((task) => task.elem))
+       console.log('update from last (if -else) TaskSection')
+      let taskIds = tasks.map((elem) => elem.taskId)
+      this.tasksView = this.tasksView.map((elem, i) => {
+        elem.update(tasks[taskIds.indexOf(elem.id)])
+        return elem
+      })
      }
-
-     
   }
-  // public update(){}
 }

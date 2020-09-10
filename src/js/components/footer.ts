@@ -16,7 +16,8 @@ export default class Footer {
   private totalTasks: HTMLElement
   private totalComlete: HTMLElement
 
-  constructor(tasksLength: number, tasksCompleteLength: number) {
+  constructor(tasksLength: number, tasksCompleteLength: number,
+    removeAllCompleteActionCreator: () => void, doAllTasksCompleteAction: () => void) {
     this.footer = new StandartFooterCreator().elem
     this.sectionLeft = new StandartSectionCreator('sort-task-section').elem
     this.sectionRight = new StandartSectionCreator('todo-footer__total-table').elem
@@ -25,6 +26,8 @@ export default class Footer {
     this.btnRemoveComplete = new StandartButtonCreator('sort-task-section__remove-comlete-button button', 'Remove comlete').elem
     this.totalTasks = new StandartTaskTextCreator(`Total tasks: ${tasksLength}`, 'total-table__total-tasks').elem
     this.totalComlete = new StandartTaskTextCreator(`Total complete: ${tasksCompleteLength}`, 'total-table__total-complete').elem
+    this.onBtnCompleteClick(doAllTasksCompleteAction)
+    this.onBtnRemoveCompleteClick(removeAllCompleteActionCreator)
     this.build()
   }
 
@@ -34,17 +37,25 @@ export default class Footer {
     this.sectionLeft.append(this.wrapperSectionLeft)
     this.footer.append(this.sectionLeft, this.sectionRight)
   }
-  public update(totalTasks: number, totalComplete: number) {
-    this.totalComlete.textContent = `Total complete: ${totalComplete}`
-    this.totalTasks.textContent = `Total tasks: ${totalTasks}`
-  }
 
-  public onBtnCompleteClick(cb:() => any) {
+  private onBtnCompleteClick(cb:() => any) {
     this.btnComplete.onclick = () => cb()
   }
-  public onBtnRemoveCompleteClick(cb:() => any) {
+  private onBtnRemoveCompleteClick(cb:() => any) {
     this.btnRemoveComplete.onclick = () => cb()
   }
+
+  public update(totalTasks: number, totalComplete: number) {
+    if (totalTasks === 0) {
+      this.footer.innerHTML = ``
+    } else  {
+      this.totalComlete.textContent = `Total complete: ${totalComplete}`
+      this.totalTasks.textContent = `Total tasks: ${totalTasks}`
+      this.build()
+      console.log('from footer')
+    }
+  }
+
   get elem() {
     return this.footer
   }

@@ -33,6 +33,8 @@ export interface StoreInterface {
   dispatch(action: ActionInterface): ActionInterface
 }
 
-export type CheckBoxActionCreator = (id: number, isDone: boolean) => void
-export type RedactActionCreator = (id: number, value: string) => void
-export type RemoveActionCreator = (id: number) => void
+export type CheckBoxAction = (id: number, isDone: boolean) => void
+export type RedactAction = (id: number, value: string) => void
+export type RemoveAction = (id: number) => void
+
+export type addTaskAction = (newTextValue: string) => void

@@ -7,7 +7,12 @@ import {StandartLiCreator,
         StandartCheckboxCreator,
         StandartLabelCreator 
 } from './../utility/standart-elements-creators'
-import {TaskInterface} from './../types'
+import {
+  TaskInterface,
+  CheckBoxAction,
+  RedactAction,
+  RemoveAction
+} from './../types'
 
 export default class Task {
   readonly id:number
@@ -18,7 +23,10 @@ export default class Task {
   private textQuestion: HTMLElement
   private redactBtn: HTMLButtonElement
   private deleteBtn: HTMLButtonElement
-  constructor({isDone, taskId, taskValue}: TaskInterface) {
+  constructor({isDone, taskId, taskValue}: TaskInterface,
+     CheckBoxAction: CheckBoxAction,
+     RedactAction: RedactAction,
+     RemoveAction: RemoveAction) {
     this.id = taskId
     this.li = new StandartLiCreator().elem
     this.label = new StandartLabelCreator().elem
@@ -27,6 +35,9 @@ export default class Task {
     this.textQuestion = new StandartTaskTextCreator(taskValue).elem
     this.redactBtn = new StandartRedactButtonCreator().elem
     this.deleteBtn = new StandartDeleteButtonCreator().elem
+    this.onDeleteBtnClick(RemoveAction)
+    this.onCheckboxChange(CheckBoxAction)
+    this.onRedactBtnClick(RedactAction)
     this.build()
   }
 
@@ -48,21 +59,32 @@ export default class Task {
     modalInput.focus()
   }
 
-  onDeleteBtnClick (cb: (id: number) => any) {
+  private onDeleteBtnClick (cb: (id: number) => any) {
     this.deleteBtn.onclick = () => {cb(this.id); this.elem.remove()}
   }
 
-  onRedactBtnClick (cb: (id: number, newValue: string) => any) {
+  private onRedactBtnClick (cb: (id: number, newValue: string) => any) {
     this.redactBtn.onclick = () => this.createModalInput(cb)
   }
 
-  onCheckboxChange (cb: (id: number, isChecked: boolean) => any) {
+  private onCheckboxChange (cb: (id: number, isChecked: boolean) => any) {
     this.checkbox.onchange = () => cb(this.id, this.checkbox.checked)
   }
 
   private build () {
     this.label.append(this.checkbox, this.checkboxMarker, this.textQuestion)
     this.li.append(this.label, this.redactBtn, this.deleteBtn)
+  }
+
+  public update({isDone, taskValue}: TaskInterface) {
+    if (isDone !== this.checkbox.checked) {
+      this.checkbox.checked = isDone
+      console.log('update from Task Component')
+      return true
+    }
+    if(taskValue !== this.textQuestion.textContent) {
+      this.textQuestion.textContent = taskValue
+    }
   }
 
   get elem () {

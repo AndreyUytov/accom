@@ -1,15 +1,21 @@
+import {StandartMainCreator} from './utility/standart-elements-creators'
+import createStore from './utility/createStore'
+import rootReducer from './reducer/index'
+import {StoreInterface} from './types'
+import {
+  checkTaskActionCreator,
+  removeTaskActionCreator,
+  addTaskActionCreator,
+  redactTaskActionCreator,
+  removeAllCompleteActionCreator,
+  doAllTasksCompleteAction
+} from './actions/index'
+
 import Header from './components/header'
 import TaskSection from './components/task-section'
 import TaskSectionCreator from './components/task-creator-section'
 import Footer from './components/footer'
 
-import {StandartMainCreator} from './utility/standart-elements-creators'
-import createStore from './utility/createStore'
-import rootReducer from './reducer/index'
-import {StoreInterface,
-        TaskInterface
-} from './types'
-import Task from './components/task'
 
 export default class Controller {
   store: StoreInterface
@@ -42,46 +48,20 @@ export default class Controller {
 
     this.header = new Header()
     this.main = new StandartMainCreator().elem
-    this.footer = new Footer(tasks.length, completeTasks)
-    this.taskSection = new TaskSection(tasks)
-    this.taskSection.tasks.forEach((elem) => {
-      elem.onDeleteBtnClick(this.removeTaskAction)
-      elem.onCheckboxChange(this.checkTaskAction)
-      elem.onRedactBtnClick(this.redactTaskAction)
-    })
-    // this.taskSection.update = () => {
-    //   let taskFromStore = this.store.getState().tasks
-    //   let tasksFromView = this.taskSection.tasksView
-    //   if (taskFromStore.length > tasksFromView.length) {
-    //     console.log(taskFromStore, tasksFromView)
-    //     const newTask = new Task(taskFromStore[taskFromStore.length - 1])
-    //     newTask.onCheckboxChange(this.checkTaskAction)
-    //     newTask.onRedactBtnClick(this.redactTaskAction)
-    //     newTask.onDeleteBtnClick(this.removeTaskAction)
-    //     this.taskSection.tasksView.push(newTask)
-    //     this.taskSection.ul.prepend(newTask.elem)
-    //   }
-    // }
-    this.taskCreatorSection = new TaskSectionCreator()
-    this.taskCreatorSection.onTaskCreatorBtnClick(this.addTaskAction)
+    this.footer = new Footer(tasks.length, completeTasks, this.removeAllCompleteAction, this.doAllTasksCompleteAction)
+    this.taskSection = new TaskSection(tasks, this.checkTaskAction, this.redactTaskAction, this.removeTaskAction)
 
-    this.footer.onBtnCompleteClick(this.doAllTasksCompleteAction)
-    this.footer.onBtnRemoveCompleteClick(this.removeAllCompleteAction)
+    this.taskCreatorSection = new TaskSectionCreator(this.addTaskAction)
 
     this.subscribeTaskSection()
     this.subscribeFooter()
-  }
-
-  render() {
-    this.main.append(this.taskCreatorSection.elem, this.taskSection.elem)
-    document.body.append(this.header.elem, this.main, this.footer.elem)
+    this.subscribeCntrrender()
   }
 
   private subscribeTaskSection() {
     this.store.subscribe(() => {
       this.taskSection.update(this.store.getState().tasks,
        this.checkTaskAction, this.redactTaskAction, this.removeTaskAction)
-      // this.taskSection.update()
     }
     )
   }
@@ -93,48 +73,43 @@ export default class Controller {
     })
   }
 
-  checkTaskAction(id: number, isDone: boolean) {
-    this.store.dispatch({
-      type: 'CHECK_TASK',
-      id,
-      isDone
+  private subscribeCntrrender () {
+    this.store.subscribe(() => {
+      if (this.store.getState().tasks.length !== 0) {
+        document.body.append(this.footer.elem)
+      }
     })
   }
 
-  removeTaskAction(id: number) {
-    this.store.dispatch({
-      type: 'REMOVE_TASK',
-      id
-    })
+  private checkTaskAction(id: number, isDone: boolean) {
+    this.store.dispatch(checkTaskActionCreator(id, isDone))
+  }
+
+  private removeTaskAction(id: number) {
+    this.store.dispatch(removeTaskActionCreator(id))
   }
   
-  addTaskAction(taskValue: string) {
+  private addTaskAction(taskValue: string) {
     let id = this.store.getState().counter
-    this.store.dispatch({
-      type: 'ADD_NEW_TASK',
-      taskValue,
-      id
-    })
+    this.store.dispatch(addTaskActionCreator(id, taskValue))
   }
 
-  redactTaskAction(id: number, newValue: string) {
-    this.store.dispatch({
-      type: 'REDACT_TASK',
-      id,
-      newValue
-    })
+  private redactTaskAction(id: number, newValue: string) {
+    this.store.dispatch(redactTaskActionCreator(id, newValue))
   }
 
-  removeAllCompleteAction() {
-    this.store.dispatch({
-      type: 'REMOVE_COMPLETE_TASKS'
-    })
+  private removeAllCompleteAction() {
+    this.store.dispatch(removeAllCompleteActionCreator())
   }
 
-  doAllTasksCompleteAction() {
-    this.store.dispatch({
-      type: 'DO_ALL_TASKS_COMPLETE'
-    })
+  private doAllTasksCompleteAction() {
+    this.store.dispatch(doAllTasksCompleteAction())
+  }
+
+  render() {
+    this.main.append(this.taskCreatorSection.elem, this.taskSection.elem)
+    document.body.append(this.header.elem, this.main)
+    this.store.getState().tasks.length ? document.body.append(this.footer.elem) : ''
   }
 
 }

@@ -5,6 +5,7 @@ import {
   StandartButtonCreator,
   StandartLabelCreator
 } from './../utility/standart-elements-creators'
+import {addTaskAction} from './../types'
 
 export default class TaskSectionCreator {
   private section: HTMLElement
@@ -12,12 +13,13 @@ export default class TaskSectionCreator {
   private label: HTMLElement
   private input: HTMLInputElement
   private button: HTMLButtonElement
-  constructor() {
+  constructor(addTaskAction: addTaskAction) {
     this.section = new StandartSectionCreator('task-creator-section').elem
     this.wrapper = new StandartDivCreator('task-creator__form').elem
     this.label = new StandartLabelCreator('task-creator__label').elem
     this.button = new StandartButtonCreator('task-creator__submit').elem
     this.input = new StandartInputCreator('task-creator__input').elem
+    this.onTaskCreatorBtnClick(addTaskAction)
     this.build()
   }
 
@@ -29,7 +31,7 @@ export default class TaskSectionCreator {
     this.section.append(this.wrapper)
   }
 
-  public onTaskCreatorBtnClick (cb:(taskValue: string) => any) {
+  private onTaskCreatorBtnClick (cb:(taskValue: string) => any) {
     const addNewTask = () => {
       if(this.input.value.trim()) {
         cb(this.input.value.trim())
