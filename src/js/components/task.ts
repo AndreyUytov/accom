@@ -80,9 +80,8 @@ export default class Task {
     if (isDone !== this.checkbox.checked) {
       this.checkbox.checked = isDone
       console.log('update from Task Component')
-      return true
-    }
-    if(taskValue !== this.textQuestion.textContent) {
+      return isDone
+    }else if(taskValue !== this.textQuestion.textContent) {
       this.textQuestion.textContent = taskValue
     }
   }

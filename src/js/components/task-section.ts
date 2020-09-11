@@ -18,7 +18,7 @@ export default class TaskSection {
     onRedactBtnClick: RedactAction, onDeleteBtnClick: RemoveAction) {
     this.section = new StandartSectionCreator('task-section').elem
     this.ul = new StandartUlCreator('task-section__list').elem
-    this.tasksView = tasks.map((elem) => new Task(elem, onCheckboxChange, onRedactBtnClick, onDeleteBtnClick))
+    this.tasksView = tasks.sort(this.sortTaskView).map((elem) => new Task(elem, onCheckboxChange, onRedactBtnClick, onDeleteBtnClick))
     this.build()
   }
 
@@ -41,14 +41,13 @@ export default class TaskSection {
     onRedactBtnClick: RedactAction, onDeleteBtnClick: RemoveAction) {
     // for remove Task
     if (tasks.length < this.tasksView.length) {
-      let taskIds = tasks.map((elem) => elem.taskId)
-      this.tasksView.forEach((elem, i) => {
-        if (!taskIds.includes(elem.id)) {
+      this.tasksView = this.tasksView.reduce((result, elem) => {
+        if (!tasks.map(el => el.taskId).includes(elem.id)) {
           elem.elem.remove()
-          this.tasksView = tasks.map((elem) => new Task(elem, onCheckboxChange, onRedactBtnClick, onDeleteBtnClick))
-          console.log('from 1 st if TaskSection')
-        }
-      })
+        } else result.push(elem)
+        return result
+      }, [])
+      console.log('from 1 st if TaskSection', this.tasksView)
     // For add new Task
     } else if (tasks.length > this.tasksView.length) {
        const newTask = new Task(tasks[tasks.length - 1],onCheckboxChange, onRedactBtnClick, onDeleteBtnClick)
