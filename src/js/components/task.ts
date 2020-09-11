@@ -26,9 +26,10 @@ export default class Task {
   constructor({isDone, taskId, taskValue}: TaskInterface,
      CheckBoxAction: CheckBoxAction,
      RedactAction: RedactAction,
-     RemoveAction: RemoveAction) {
+     RemoveAction: RemoveAction, changeCheckBox: (evt:any) => any) {
     this.id = taskId
     this.li = new StandartLiCreator().elem
+    this.li.onclick = changeCheckBox
     this.label = new StandartLabelCreator().elem
     this.checkbox = new StandartCheckboxCreator(isDone).elem
     this.checkboxMarker = new StandartCheckBoxMarkerCreator().elem
@@ -79,8 +80,7 @@ export default class Task {
   public update({isDone, taskValue}: TaskInterface) {
     if (isDone !== this.checkbox.checked) {
       this.checkbox.checked = isDone
-      console.log('update from Task Component')
-      return isDone
+      console.log('update from Task Component', isDone)
     }else if(taskValue !== this.textQuestion.textContent) {
       this.textQuestion.textContent = taskValue
     }
