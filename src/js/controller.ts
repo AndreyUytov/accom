@@ -1,7 +1,7 @@
 import {StandartMainCreator} from './utility/standart-elements-creators'
 import createStore from './utility/createStore'
 import rootReducer from './reducer/index'
-import {StoreInterface} from './types'
+import {StoreInterface, TaskInterface} from './types'
 import {
   checkTaskActionCreator,
   removeTaskActionCreator,
@@ -25,19 +25,21 @@ export default class Controller {
   taskCreatorSection: TaskSectionCreator
   taskSection: TaskSection
   constructor () {
-    const preloadedState = {
-      tasks: [
-        {taskId:0,taskValue:'hello',isDone:true},
-        {taskId:1,taskValue:'world',isDone:false},
-        {taskId:2,taskValue:'!',isDone:false}
-      ],
-      counter: 5
+    const preloadData = (): {tasks: TaskInterface[], counter: number} => {
+      let preloadedState
+      if (localStorage.getItem('todoData')) {
+        preloadedState = JSON.parse(localStorage.getItem('todoData'))
+      }
+      return preloadedState
     }
-    this.store = createStore(rootReducer, preloadedState)   
+    this.store = createStore(rootReducer, preloadData())   
     let tasks = this.store.getState().tasks
     let completeTasks = tasks.filter(({isDone}: {isDone: boolean}) => isDone === true).length
 
     this.store.subscribe(() => console.log(this.store.getState().tasks, this.store.getState().counter))
+    this.store.subscribe(() => {
+      localStorage.setItem('todoData', JSON.stringify(this.store.getState()))
+    })
 
     this.removeTaskAction = this.removeTaskAction.bind(this)
     this.checkTaskAction = this.checkTaskAction.bind(this)
