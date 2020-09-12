@@ -159,7 +159,7 @@ export class StandartLiCreator extends ElementCreator {
 
 export class StandartLabelCreator extends ElementCreator {
   className: string
-  constructor(className: string = 'task-section__item'){
+  constructor(className: string = 'item__chekbox-label'){
     super()
     this.className = className
   }

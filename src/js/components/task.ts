@@ -23,6 +23,7 @@ export default class Task {
   private textQuestion: HTMLElement
   private redactBtn: HTMLButtonElement
   private deleteBtn: HTMLButtonElement
+  private modalInput: HTMLInputElement
   constructor({isDone, taskId, taskValue}: TaskInterface,
      CheckBoxAction: CheckBoxAction,
      RedactAction: RedactAction,
@@ -36,28 +37,28 @@ export default class Task {
     this.textQuestion = new StandartTaskTextCreator(taskValue).elem
     this.redactBtn = new StandartRedactButtonCreator().elem
     this.deleteBtn = new StandartDeleteButtonCreator().elem
+    this.modalInput = new StandartInputCreator('item__modal-input').elem 
     this.onDeleteBtnClick(RemoveAction)
     this.onCheckboxChange(CheckBoxAction)
     this.onRedactBtnClick(RedactAction)
     this.build()
   }
 
-  private createModalInput (cb: (id: number, newValue: string) => any) {
-    const modalInput: HTMLInputElement = new StandartInputCreator().elem
-    modalInput.type = 'text'
-    modalInput.className = 'item__modal-input'
-    modalInput.value = this.textQuestion.textContent
+  private refactorTask(cb: (id: number, newValue: string) => any, task: Task) {
+    task.textQuestion.textContent = task.modalInput.value.trim()
+      cb(task.id, task.textQuestion.textContent)
+      task.modalInput.remove()
+  }
 
-    const refactorTask = () => {
-      this.textQuestion.textContent = modalInput.value.trim()
-      cb(this.id, this.textQuestion.textContent)
-      modalInput.remove()
-    }
+  private renderModalInput (cb: (id: number, newValue: string) => any) {
+    
+    this.modalInput.value = this.textQuestion.textContent
 
-    modalInput.onkeydown = (evt) => evt.keyCode === 13 ? refactorTask() : null
-    modalInput.onblur = refactorTask
-    this.li.append(modalInput)
-    modalInput.focus()
+    this.modalInput.onkeydown = (evt) => evt.keyCode === 13 ? this.refactorTask(cb, this) : null
+    this.modalInput.onblur = () => this.refactorTask(cb, this)
+    this.modalInput.onclick = () => this.refactorTask(cb, this)
+    this.li.append(this.modalInput)
+    this.modalInput.focus()
   }
 
   private onDeleteBtnClick (cb: (id: number) => any) {
@@ -65,7 +66,7 @@ export default class Task {
   }
 
   private onRedactBtnClick (cb: (id: number, newValue: string) => any) {
-    this.redactBtn.onclick = () => this.createModalInput(cb)
+    this.redactBtn.onclick = () => this.renderModalInput(cb)
   }
 
   private onCheckboxChange (cb: (id: number, isChecked: boolean) => any) {

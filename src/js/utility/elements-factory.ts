@@ -60,7 +60,7 @@ export class StandartLi extends StandartHTMLElement {
 export class StandartLabel extends StandartHTMLElement {
   element: HTMLLabelElement
   constructor (styleName:  string) {
-    super('label', 'item__chekbox-label')
+    super('label', styleName)
   }
 
   getElem () {

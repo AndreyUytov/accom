@@ -31,7 +31,7 @@ export default class TaskSection {
   private changeCheckBox (evt: Event) {
     let elemTarget = evt.target as HTMLInputElement
     let elemCurrentTarget = evt.currentTarget as HTMLLIElement
-    if(elemTarget.tagName === 'INPUT') {
+    if(elemTarget.tagName === 'INPUT' && elemTarget.type === 'checkbox') {
       elemTarget.checked ? this.ul.append(elemCurrentTarget) : this.ul.prepend(elemCurrentTarget)
     }
   }
