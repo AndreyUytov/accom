@@ -3,16 +3,18 @@ import {
   StandartTitleCreator,
   StandartSubTitleCreator
 } from './../utility/standart-elements-creators'
-import {Day} from './../types'
+import {Day, GUIFactory} from './../types'
 
 export default class Header {
   private header: HTMLElement
   private title: HTMLElement
   private subTitle: HTMLElement
-  constructor() {
-    this.header = new StandartHeaderCreator().elem
-    this.title = new StandartTitleCreator('ToDo').elem
-    this.subTitle = new StandartSubTitleCreator(Day[new Date().getDay()]).elem
+  constructor(factory: GUIFactory) {
+    this.header = factory.header
+    this.title = factory.headerTitle
+    this.title.textContent = 'ToDo'
+    this.subTitle = factory.headerSubTitle
+    this.subTitle.textContent = Day[new Date().getDay()]
     this.build()
   }
 

@@ -36,59 +36,34 @@ export type RemoveAction = (id: number) => void
 export type addTaskAction = (newTextValue: string) => void
 
 export interface GUIFactory {
-  header: UniverseElement
-  headerTitle: UniverseElement
-  headerSubTitle: UniverseElement
+  header: HTMLElement
+  headerTitle: HTMLElement
+  headerSubTitle: HTMLElement
 
-  main: UniverseElement
+  main: HTMLElement
 
-  taskCreatorSection: UniverseElement
-  taskCreatorSectionWrapper: UniverseElement
-  taskCreatorSectionLabel: LabelElement
-  taskCreatorSectionInput: InputElement
+  taskCreatorSection: HTMLElement
+  taskCreatorSectionWrapper: HTMLElement
+  taskCreatorSectionLabel: HTMLLabelElement
+  taskCreatorSectionInput: HTMLInputElement
 
-  taskSection: UniverseElement
-  taskSectionTaskList: UniverseElement
-  taskItem: LiElement
-  taskLabel: LabelElement
-  taskCheckBox: InputElement
-  taskCheckBoxMarker: SpanElement
-  taskValue: UniverseElement
-  taskRedactBtn: ButtonElement
-  taskDeleteBtn: ButtonElement
-  taskModalInput: InputElement
+  taskSection: HTMLElement
+  taskSectionTaskList: HTMLElement
+  taskItem: HTMLLIElement
+  taskLabel: HTMLLabelElement
+  taskCheckBox: HTMLInputElement
+  taskCheckBoxMarker: HTMLSpanElement
+  taskValue: HTMLElement
+  taskRedactBtn: HTMLButtonElement
+  taskDeleteBtn: HTMLButtonElement
+  taskModalInput: HTMLInputElement
 
-  footer: UniverseElement
-  footerLeftSection: UniverseElement
-  footerRightSection: UniverseElement
-  footerLeftSectionWrapper: UniverseElement
-  footerCompleteBtn: ButtonElement
-  footerRemoveCompleteBtn: ButtonElement
-  footerTotalTask: UniverseElement
-  footerTotalCompleteTask: UniverseElement
+  footer: HTMLElement
+  footerLeftSection: HTMLElement
+  footerRightSection: HTMLElement
+  footerLeftSectionWrapper: HTMLElement
+  footerCompleteBtn: HTMLButtonElement
+  footerRemoveCompleteBtn: HTMLButtonElement
+  footerTotalTask: HTMLElement
+  footerTotalCompleteTask: HTMLElement
 }
-
-export interface UniverseElement {
-  elem: HTMLElement
-}
-
-export interface InputElement {
-  elem: HTMLInputElement
-}
-
-export interface LiElement {
-  elem: HTMLLIElement
-}
-
-export interface LabelElement {
-  elem: HTMLLabelElement
-}
-
-export interface SpanElement {
-  elem: HTMLSpanElement
-}
-
-export interface ButtonElement {
-  elem: HTMLButtonElement
-}
-

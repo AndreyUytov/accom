@@ -1,7 +1,7 @@
 import {StandartMainCreator} from './utility/standart-elements-creators'
 import createStore from './utility/createStore'
 import rootReducer from './reducer/index'
-import {StoreInterface, TaskInterface} from './types'
+import {StoreInterface, TaskInterface, GUIFactory} from './types'
 import {
   checkTaskActionCreator,
   removeTaskActionCreator,
@@ -11,6 +11,8 @@ import {
   doAllTasksCompleteAction
 } from './actions/index'
 
+import StandarFactory from './utility/standart-factory'
+
 import Header from './components/header'
 import TaskSection from './components/task-section'
 import TaskSectionCreator from './components/task-creator-section'
@@ -18,6 +20,7 @@ import Footer from './components/footer'
 
 
 export default class Controller {
+  factory: GUIFactory
   store: StoreInterface
   header: Header
   main: HTMLElement
@@ -36,10 +39,13 @@ export default class Controller {
     let tasks = this.store.getState().tasks
     let completeTasks = tasks.filter(({isDone}: {isDone: boolean}) => isDone === true).length
 
-    this.store.subscribe(() => console.log(this.store.getState().tasks, this.store.getState().counter))
     this.store.subscribe(() => {
       localStorage.setItem('todoData', JSON.stringify(this.store.getState()))
     })
+
+    this.store.subscribe(() => console.log(this.store.getState().tasks, this.store.getState().counter))
+
+    this.factory = new StandarFactory()
 
     this.removeTaskAction = this.removeTaskAction.bind(this)
     this.checkTaskAction = this.checkTaskAction.bind(this)
@@ -48,7 +54,7 @@ export default class Controller {
     this.removeAllCompleteAction = this.removeAllCompleteAction.bind(this)
     this.doAllTasksCompleteAction = this.doAllTasksCompleteAction.bind(this)
 
-    this.header = new Header()
+    this.header = new Header(this.factory)
     this.main = new StandartMainCreator().elem
     this.footer = new Footer(tasks.length, completeTasks, this.removeAllCompleteAction, this.doAllTasksCompleteAction)
     this.taskSection = new TaskSection(tasks, this.checkTaskAction, this.redactTaskAction, this.removeTaskAction)
