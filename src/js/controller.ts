@@ -1,4 +1,3 @@
-import {StandartMainCreator} from './utility/standart-elements-creators'
 import createStore from './utility/createStore'
 import rootReducer from './reducer/index'
 import {StoreInterface, TaskInterface, GUIFactory} from './types'
@@ -55,11 +54,11 @@ export default class Controller {
     this.doAllTasksCompleteAction = this.doAllTasksCompleteAction.bind(this)
 
     this.header = new Header(this.factory)
-    this.main = new StandartMainCreator().elem
-    this.footer = new Footer(tasks.length, completeTasks, this.removeAllCompleteAction, this.doAllTasksCompleteAction)
-    this.taskSection = new TaskSection(tasks, this.checkTaskAction, this.redactTaskAction, this.removeTaskAction)
+    this.main = this.factory.main
+    this.footer = new Footer(tasks.length, completeTasks, this.removeAllCompleteAction, this.doAllTasksCompleteAction, this.factory)
+    this.taskSection = new TaskSection(tasks, this.checkTaskAction, this.redactTaskAction, this.removeTaskAction, this.factory)
 
-    this.taskCreatorSection = new TaskSectionCreator(this.addTaskAction)
+    this.taskCreatorSection = new TaskSectionCreator(this.addTaskAction, this.factory)
 
     this.subscribeTaskSection()
     this.subscribeFooter()
@@ -69,7 +68,7 @@ export default class Controller {
   private subscribeTaskSection() {
     this.store.subscribe(() => {
       this.taskSection.update(this.store.getState().tasks,
-       this.checkTaskAction, this.redactTaskAction, this.removeTaskAction)
+       this.checkTaskAction, this.redactTaskAction, this.removeTaskAction, this.factory)
     }
     )
   }

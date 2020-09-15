@@ -1,17 +1,9 @@
-import {StandartLiCreator,
-        StandartCheckBoxMarkerCreator,
-        StandartTaskTextCreator,
-        StandartRedactButtonCreator,
-        StandartDeleteButtonCreator,
-        StandartInputCreator,
-        StandartCheckboxCreator,
-        StandartLabelCreator 
-} from './../utility/standart-elements-creators'
 import {
   TaskInterface,
   CheckBoxAction,
   RedactAction,
-  RemoveAction
+  RemoveAction,
+  GUIFactory
 } from './../types'
 
 export default class Task {
@@ -27,17 +19,19 @@ export default class Task {
   constructor({isDone, taskId, taskValue}: TaskInterface,
      CheckBoxAction: CheckBoxAction,
      RedactAction: RedactAction,
-     RemoveAction: RemoveAction, changeCheckBox: (evt:any) => any) {
+     RemoveAction: RemoveAction, changeCheckBox: (evt:any) => any, factory: GUIFactory) {
     this.id = taskId
-    this.li = new StandartLiCreator().elem
+    this.li = factory.taskItem
     this.li.onclick = changeCheckBox
-    this.label = new StandartLabelCreator().elem
-    this.checkbox = new StandartCheckboxCreator(isDone).elem
-    this.checkboxMarker = new StandartCheckBoxMarkerCreator().elem
-    this.textQuestion = new StandartTaskTextCreator(taskValue).elem
-    this.redactBtn = new StandartRedactButtonCreator().elem
-    this.deleteBtn = new StandartDeleteButtonCreator().elem
-    this.modalInput = new StandartInputCreator('item__modal-input').elem 
+    this.label = factory.taskLabel
+    this.checkbox = factory.taskCheckBox
+    this.checkbox.checked = isDone
+    this.checkboxMarker = factory.taskCheckBoxMarker
+    this.textQuestion = factory.taskValue
+    this.textQuestion.textContent = `${taskValue}`
+    this.redactBtn = factory.taskRedactBtn
+    this.deleteBtn = factory.taskDeleteBtn
+    this.modalInput = factory.taskModalInput
     this.onDeleteBtnClick(RemoveAction)
     this.onCheckboxChange(CheckBoxAction)
     this.onRedactBtnClick(RedactAction)
@@ -81,7 +75,6 @@ export default class Task {
   public update({isDone, taskValue}: TaskInterface) {
     if (isDone !== this.checkbox.checked) {
       this.checkbox.checked = isDone
-      console.log('update from Task Component', isDone)
     }else if(taskValue !== this.textQuestion.textContent) {
       this.textQuestion.textContent = taskValue
     }

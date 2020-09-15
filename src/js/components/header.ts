@@ -1,8 +1,3 @@
-import {
-  StandartHeaderCreator,
-  StandartTitleCreator,
-  StandartSubTitleCreator
-} from './../utility/standart-elements-creators'
 import {Day, GUIFactory} from './../types'
 
 export default class Header {

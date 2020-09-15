@@ -73,11 +73,11 @@ export default class StandartFactory implements GUIFactory {
   }
 
   get taskRedactBtn () {
-    return new StandartButton('item-text-refactror__btn btn', 'Redact text task').getElem()
+    return new StandartButton('item-text-refactror__btn btn').getElem()
   }
 
   get taskDeleteBtn () {
-    return new StandartButton('item-delete-task__btn btn', 'Delete task').getElem()
+    return new StandartButton('item-delete-task__btn btn').getElem()
   }
 
   get taskModalInput () {

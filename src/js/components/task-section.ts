@@ -1,12 +1,9 @@
 import {
-  StandartSectionCreator,
-  StandartUlCreator
-} from './../utility/standart-elements-creators'
-import {
   TaskInterface,
   CheckBoxAction,
   RedactAction,
-  RemoveAction
+  RemoveAction,
+  GUIFactory
 } from './../types'
 import Task from './task'
 
@@ -15,11 +12,11 @@ export default class TaskSection {
   private ul: HTMLElement
   private tasksView: Task []
   constructor (tasks: TaskInterface [], onCheckboxChange: CheckBoxAction,
-    onRedactBtnClick: RedactAction, onDeleteBtnClick: RemoveAction) {
+    onRedactBtnClick: RedactAction, onDeleteBtnClick: RemoveAction, factory: GUIFactory) {
     this.changeCheckBox = this.changeCheckBox.bind(this)
-    this.section = new StandartSectionCreator('task-section').elem
-    this.ul = new StandartUlCreator('task-section__list').elem
-    this.tasksView = tasks.sort(this.sortTaskView).map((elem) => new Task(elem, onCheckboxChange, onRedactBtnClick, onDeleteBtnClick,this.changeCheckBox))
+    this.section = factory.taskSection
+    this.ul = factory.taskSectionTaskList
+    this.tasksView = tasks.sort(this.sortTaskView).map((elem) => new Task(elem, onCheckboxChange, onRedactBtnClick, onDeleteBtnClick,this.changeCheckBox, factory))
     this.build()
   }
 
@@ -43,7 +40,7 @@ export default class TaskSection {
   }
 
   public update(tasks: TaskInterface [], onCheckboxChange: CheckBoxAction,
-    onRedactBtnClick: RedactAction, onDeleteBtnClick: RemoveAction) {
+    onRedactBtnClick: RedactAction, onDeleteBtnClick: RemoveAction, factory: GUIFactory) {
       let taskIds = tasks.map((elem) => elem.taskId)
     // for remove Task
     if (tasks.length < this.tasksView.length) {
@@ -53,15 +50,13 @@ export default class TaskSection {
         } else result.push(elem)
         return result
       }, [])
-      console.log('from 1 st if TaskSection', this.tasksView)
     // For add new Task
     } else if (tasks.length > this.tasksView.length) {
-       const newTask = new Task(tasks[tasks.length - 1],onCheckboxChange, onRedactBtnClick, onDeleteBtnClick, this.changeCheckBox)
+       const newTask = new Task(tasks[tasks.length - 1],onCheckboxChange, onRedactBtnClick, onDeleteBtnClick, this.changeCheckBox, factory)
        this.tasksView.push(newTask)
        this.ul.prepend(newTask.elem)
     // For another ...
      } else {
-      console.log('update from last (if -else) TaskSection')
       this.tasksView.forEach((elem) => {
         elem.update(tasks[taskIds.indexOf(elem.id)])
       })

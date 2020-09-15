@@ -1,21 +1,15 @@
-import {
-  StandartSectionCreator,
-  StandartDivCreator,
-  StandartInputCreator,
-  StandartLabelCreator
-} from './../utility/standart-elements-creators'
-import {addTaskAction} from './../types'
+import {addTaskAction, GUIFactory} from './../types'
 
 export default class TaskSectionCreator {
   private section: HTMLElement
   private wrapper: HTMLElement
   private label: HTMLElement
   private input: HTMLInputElement
-  constructor(addTaskAction: addTaskAction) {
-    this.section = new StandartSectionCreator('task-creator-section').elem
-    this.wrapper = new StandartDivCreator('task-creator__form').elem
-    this.label = new StandartLabelCreator('task-creator__label').elem
-    this.input = new StandartInputCreator('task-creator__input').elem
+  constructor(addTaskAction: addTaskAction, factory: GUIFactory) {
+    this.section = factory.taskCreatorSection
+    this.wrapper = factory.taskCreatorSectionWrapper
+    this.label = factory.taskCreatorSectionLabel
+    this.input = factory.taskCreatorSectionInput
     this.onTaskCreatorBtnClick(addTaskAction)
     this.build()
   }

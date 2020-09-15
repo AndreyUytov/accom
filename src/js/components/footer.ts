@@ -1,10 +1,4 @@
-import {
-  StandartFooterCreator,
-  StandartSectionCreator,
-  StandartDivCreator,
-  StandartButtonCreator,
-  StandartTaskTextCreator
-} from './../utility/standart-elements-creators'
+import {GUIFactory} from './../types'
 
 export default class Footer {
   private footer: HTMLElement
@@ -17,15 +11,17 @@ export default class Footer {
   private totalComlete: HTMLElement
 
   constructor(tasksLength: number, tasksCompleteLength: number,
-    removeAllCompleteActionCreator: () => void, doAllTasksCompleteAction: () => void) {
-    this.footer = new StandartFooterCreator().elem
-    this.sectionLeft = new StandartSectionCreator('sort-task-section').elem
-    this.sectionRight = new StandartSectionCreator('todo-footer__total-table').elem
-    this.wrapperSectionLeft = new StandartDivCreator('sort-task__wrapper').elem
-    this.btnComplete = new StandartButtonCreator('sort-task-section__complete-all-button button', 'All complete').elem
-    this.btnRemoveComplete = new StandartButtonCreator('sort-task-section__remove-comlete-button button', 'Remove comlete').elem
-    this.totalTasks = new StandartTaskTextCreator(`Total tasks: ${tasksLength}`, 'total-table__total-tasks').elem
-    this.totalComlete = new StandartTaskTextCreator(`Total complete: ${tasksCompleteLength}`, 'total-table__total-complete').elem
+    removeAllCompleteActionCreator: () => void, doAllTasksCompleteAction: () => void, factory: GUIFactory) {
+    this.footer = factory.footer
+    this.sectionLeft = factory.footerLeftSection
+    this.sectionRight = factory.footerRightSection
+    this.wrapperSectionLeft = factory.footerLeftSectionWrapper
+    this.btnComplete = factory.footerCompleteBtn
+    this.btnRemoveComplete = factory.footerRemoveCompleteBtn
+    this.totalTasks = factory.footerTotalTask
+    this.totalTasks.textContent = `Total complete: ${tasksLength}`
+    this.totalComlete = factory.footerTotalCompleteTask
+    this.totalComlete.textContent = `Total complete: ${tasksCompleteLength}`
     this.onBtnCompleteClick(doAllTasksCompleteAction)
     this.onBtnRemoveCompleteClick(removeAllCompleteActionCreator)
     this.build()
@@ -52,7 +48,6 @@ export default class Footer {
       this.totalComlete.textContent = `Total complete: ${totalComplete}`
       this.totalTasks.textContent = `Total tasks: ${totalTasks}`
       this.build()
-      console.log('from footer')
     }
   }
 
