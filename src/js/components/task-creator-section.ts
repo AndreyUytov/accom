@@ -1,4 +1,4 @@
-import {addTaskAction, GUIFactory} from './../types'
+import { addTaskAction, GUIFactory } from './../types'
 
 export default class TaskSectionCreator {
   private section: HTMLElement
@@ -22,14 +22,29 @@ export default class TaskSectionCreator {
     this.section.append(this.wrapper)
   }
 
-  private onTaskCreatorBtnClick (cb:(taskValue: string) => any) {
+  private onTaskCreatorBtnClick(cb: (taskValue: string) => any) {
     const addNewTask = () => {
-      if(this.input.value.trim()) {
+      if (this.input.value.trim()) {
         cb(this.input.value.trim())
       }
       this.input.value = ''
     }
-    this.input.onkeydown = (evt) => evt.keyCode === 13 ? addNewTask() : null
+    this.input.onkeydown = (evt) => (evt.keyCode === 13 ? addNewTask() : null)
+
+    let timerId: any
+    this.input.addEventListener('input', (evt) => {
+      let searchInput = evt.currentTarget as HTMLInputElement
+      if (timerId) {
+        clearTimeout(timerId)
+        timerId = setTimeout(() => {
+          console.log(searchInput.value)
+        }, 300)
+      } else {
+        timerId = setTimeout(() => {
+          console.log(searchInput.value)
+        }, 300)
+      }
+    })
   }
 
   get elem() {
