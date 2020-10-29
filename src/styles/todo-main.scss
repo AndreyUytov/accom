@@ -1,7 +1,7 @@
 .task-creator__form {
   display: flex;
   flex-direction: column;
-  
+
   justify-content: center;
   align-items: center;
 }
@@ -57,9 +57,6 @@
   }
 }
 
-
-
-
 .task-section {
   display: flex;
   justify-content: center;
@@ -82,6 +79,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  transition: 1s; // ?
+
   &:hover {
     background-color: $hoverBtn;
   }
@@ -151,20 +151,15 @@
   }
 }
 
-
-
-
-
 .todo-footer {
   margin-top: 20px;
-  
+
   display: flex;
   justify-content: space-between;
 }
 
 .sort-task-section {
   margin-bottom: 20px;
-
 
   display: flex;
   align-items: center;
@@ -197,7 +192,6 @@
   padding: 0;
   margin: 0;
 }
-
 
 // modal-input
 

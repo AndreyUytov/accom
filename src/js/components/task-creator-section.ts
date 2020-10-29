@@ -16,6 +16,7 @@ export default class TaskSectionCreator {
 
   private build() {
     this.input.placeholder = 'Add new task'
+    this.label.dataset.tooltip = 'press Enter'
 
     this.label.append(this.input)
     this.wrapper.append(this.label)
@@ -31,18 +32,22 @@ export default class TaskSectionCreator {
     }
     this.input.onkeydown = (evt) => (evt.keyCode === 13 ? addNewTask() : null)
 
-    let timerId: any
+    let timerId: ReturnType<typeof setTimeout>
+    const timerTooltip = (searchInput: HTMLInputElement) => {
+      return setTimeout(() => {
+        searchInput.value.trim()
+          ? this.label.classList.add('show')
+          : this.label.classList.remove('show')
+      }, 500)
+    }
     this.input.addEventListener('input', (evt) => {
       let searchInput = evt.currentTarget as HTMLInputElement
       if (timerId) {
         clearTimeout(timerId)
-        timerId = setTimeout(() => {
-          console.log(searchInput.value)
-        }, 300)
+        this.label.classList.remove('show')
+        timerId = timerTooltip(searchInput)
       } else {
-        timerId = setTimeout(() => {
-          console.log(searchInput.value)
-        }, 300)
+        timerId = timerTooltip(searchInput)
       }
     })
   }

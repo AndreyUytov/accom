@@ -1,84 +1,118 @@
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 img {
-	display: block;
-	max-width: 100%;
-	height: auto;
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
-*, *::before, *::after {
-	box-sizing: inherit;
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 html {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	font-family: 'Lato Regular';
-	font-size: 18px;
-	line-height: 26px;
-	color: #333333;
+  font-family: 'Lato Regular';
+  font-size: 18px;
+  line-height: 26px;
+  color: #333333;
 }
 
 .content-box-component {
-	box-sizing: content-box;
+  box-sizing: content-box;
 }
 
 .visually-hidden:not(:focus):not(:active),
-input[type="checkbox"].visually-hidden,
-input[type="radio"].visually-hidden {
-	position: absolute;
+input[type='checkbox'].visually-hidden,
+input[type='radio'].visually-hidden {
+  position: absolute;
 
-	width: 1px;
-	height: 1px;
-	margin: -1px;
-	border:0;
-	padding: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
 
-	white-space: nowrap;
+  white-space: nowrap;
 
-	clip-path: inset(100%);
-	clip: rect(0 0 0 0);
-	overflow: hidden;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }
 
 .container {
-	width: 500px;
-	margin: 0 auto;
+  width: 500px;
+  margin: 0 auto;
 }
 
 .btn {
-	width: 30px;
-	height: 30px;
-	background-color: transparent;
-	box-shadow: none;
-	border: none;
-	cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  cursor: pointer;
 }
 
 .button {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-	background-color: transparent;
-	border: 1px solid $akcent;
-	box-shadow: none;
-	cursor: pointer;
-	&:hover {
-		color: white;
-		background-color: $hoverBtnFon;
-	}
+  background-color: transparent;
+  border: 1px solid $akcent;
+  box-shadow: none;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: $hoverBtnFon;
+  }
 }
 
 .checkbox {
-	position: absolute;
+  position: absolute;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+[data-tooltip] {
+  position: relative; /* Относительное позиционирование */
+}
+[data-tooltip]::after {
+  content: attr(data-tooltip); /* Выводим текст */
+  position: absolute; /* Абсолютное позиционирование */
+  width: auto; /* Ширина подсказки */
+  left: 50%;
+  top: 0; /* Положение подсказки */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transform: translateX(-50%);
+
+  background: $akcent; /* Синий цвет фона */
+  color: #fff; /* Цвет текста */
+  padding: 0.5em; /* Поля вокруг текста */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
+  pointer-events: none; /* Подсказка */
+  opacity: 0; /* Подсказка невидима */
+  transition: 1s;
+
+  z-index: 100;
+}
+
+.show[data-tooltip]::after {
+  opacity: 1; /* Показываем подсказку */
+  top: 2em; /* Положение подсказки */
 }
