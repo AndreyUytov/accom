@@ -24,15 +24,24 @@ export default class TaskSectionCreator {
   }
 
   private onTaskCreatorBtnClick(cb: (taskValue: string) => any) {
-    const addNewTask = () => {
-      if (this.input.value.trim()) {
+    // const addNewTask = () => {
+    //   if (this.input.value.trim()) {
+    //     cb(this.input.value.trim())
+    //   }
+    //   this.input.value = ''
+    // }
+    // this.input.onkeydown = (evt) => (evt.code === 'Enter' ? addNewTask() : null)
+
+    this.input.addEventListener('keydown', (evt: KeyboardEvent) => {
+      if (evt.code === 'Enter') {
+        this.label.classList.remove('show')
         cb(this.input.value.trim())
+        this.input.value = ''
       }
-      this.input.value = ''
-    }
-    this.input.onkeydown = (evt) => (evt.keyCode === 13 ? addNewTask() : null)
+    })
 
     let timerId: ReturnType<typeof setTimeout>
+
     const timerTooltip = (searchInput: HTMLInputElement) => {
       return setTimeout(() => {
         searchInput.value.trim()
@@ -40,15 +49,17 @@ export default class TaskSectionCreator {
           : this.label.classList.remove('show')
       }, 500)
     }
-    this.input.addEventListener('input', (evt) => {
+
+    this.input.addEventListener('input', (evt: KeyboardEvent) => {
       let searchInput = evt.currentTarget as HTMLInputElement
-      if (timerId) {
-        clearTimeout(timerId)
-        this.label.classList.remove('show')
-        timerId = timerTooltip(searchInput)
-      } else {
+
+      if (!timerId) {
         timerId = timerTooltip(searchInput)
       }
+
+      clearTimeout(timerId)
+      this.label.classList.remove('show')
+      timerId = timerTooltip(searchInput)
     })
   }
 
