@@ -45,6 +45,7 @@ export interface GUIFactory {
   taskCreatorSection: HTMLElement
   taskCreatorSectionWrapper: HTMLElement
   taskCreatorSectionLabel: HTMLLabelElement
+  taskCreatorAddBtn: HTMLButtonElement
   taskCreatorSectionInput: HTMLInputElement
 
   taskSection: HTMLElement

@@ -97,6 +97,16 @@ export default class StandartFactory implements GUIFactory {
     return btn
   }
 
+  get taskCreatorAddBtn() {
+    const marker = new StandartSvgMarker(
+      'edit-svg__wrapper',
+      '#add-task-marker'
+    ).getElem()
+    const btn = new StandartButton('task-creator__btn btn').getElem()
+    btn.append(marker)
+    return btn
+  }
+
   get taskModalInput() {
     return new StandartInput('item__modal-input', 'text').getElem()
   }
