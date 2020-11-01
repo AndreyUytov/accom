@@ -47,6 +47,10 @@ input[type='radio'].visually-hidden {
   overflow: hidden;
 }
 
+.todo-header__title {
+  color: $hoverBtnFon;
+}
+
 .container {
   width: 320px;
   margin: 0 auto;
@@ -74,17 +78,20 @@ input[type='radio'].visually-hidden {
 }
 
 .button {
+  padding: 2px 10px;
   display: flex;
   justify-content: center;
   align-items: center;
 
   background-color: transparent;
   border: 1px solid $akcent;
-  box-shadow: none;
+  border-radius: 25px;
+  color: $akcent;
   cursor: pointer;
   &:hover {
     color: white;
     background-color: $hoverBtnFon;
+    box-shadow: 0px 3px 8px $akcent;
   }
 }
 

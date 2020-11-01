@@ -1,4 +1,4 @@
-import {Day, GUIFactory} from './../types'
+import { Day, GUIFactory } from './../types'
 
 export default class Header {
   private header: HTMLElement
@@ -7,18 +7,17 @@ export default class Header {
   constructor(factory: GUIFactory) {
     this.header = factory.header
     this.title = factory.headerTitle
-    this.title.textContent = 'ToDo'
+    this.title.textContent = 'ToDo on TypeScript'
     this.subTitle = factory.headerSubTitle
     this.subTitle.textContent = Day[new Date().getDay()]
     this.build()
   }
 
-  private build () {
+  private build() {
     this.header.append(this.title, this.subTitle)
   }
 
-  get elem () {
+  get elem() {
     return this.header
   }
-
 }
