@@ -98,7 +98,7 @@
   cursor: pointer;
 
   &:hover .marker-checkbox {
-    background-image: url('./../images/svg/checkbox--hover.svg');
+    --icon-fill: #ec966d;
   }
 }
 
@@ -108,12 +108,10 @@
   left: 10px;
   width: 18px;
   height: 18px;
-
-  background-image: url('./../images/svg/checkbox.svg');
 }
 
 .item__marker-checkbox:checked + .marker-checkbox {
-  background-image: url('./../images/svg/checkbox--checked.svg');
+  --icon-display: block;
 }
 
 .item__marker-checkbox:checked ~ .item-text {
@@ -129,25 +127,14 @@
 }
 
 .item-text-refactror__btn {
-  background-image: url('./../images/svg/select-snap.svg');
-  background-position: center;
-  background-repeat: no-repeat;
-
   &:hover {
-    background-image: url('./../images/svg/select-snap--hover.svg');
-  }
-  &:active {
-    background-image: url('./../images/svg/select-snap--active.svg');
+    --icon-stroke: #ec966d;
   }
 }
 
 .item-delete-task__btn {
-  background-image: url('./../images/svg/close-snap.svg');
-  background-position: center;
-  background-repeat: no-repeat;
-
   &:hover {
-    background-image: url('./../images/svg/close-snap--hover.svg');
+    --icon-fill: #ec966d;
   }
 }
 

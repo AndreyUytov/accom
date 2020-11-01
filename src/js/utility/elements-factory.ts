@@ -1,6 +1,4 @@
-import {
-  HTMLProductsInterface
-} from './../types'
+import { HTMLProductsInterface } from './../types'
 
 export class StandartHTMLElement implements HTMLProductsInterface {
   protected element: HTMLElement
@@ -14,78 +12,88 @@ export class StandartHTMLElement implements HTMLProductsInterface {
     }
   }
 
-  getElem () {
+  getElem() {
     return this.element
   }
-  
 }
 
 export class StandartInput extends StandartHTMLElement {
   element: HTMLInputElement
-  constructor (styleNames: string, type: string) {
+  constructor(styleNames: string, type: string) {
     super('input', styleNames)
     this.element.type = type
   }
 
-  getElem () {
+  getElem() {
     return this.element
   }
 }
 
 export class StandartButton extends StandartHTMLElement {
   element: HTMLButtonElement
-  constructor (styleNames: string, valueButton?: string) {
+  constructor(styleNames: string, valueButton?: string) {
     super('button', styleNames)
     this.element.type = 'button'
-    if(valueButton) {
+    if (valueButton) {
       this.element.textContent = valueButton
     }
   }
 
-  getElem () {
-   return this.element
+  getElem() {
+    return this.element
   }
 }
 
 export class StandartLi extends StandartHTMLElement {
   element: HTMLLIElement
-  constructor(styleNames:string) {
+  constructor(styleNames: string) {
     super('li', styleNames)
   }
-  getElem () {
+  getElem() {
     return this.element
-   }
+  }
 }
 
 export class StandartLabel extends StandartHTMLElement {
   element: HTMLLabelElement
-  constructor (styleName:  string) {
+  constructor(styleName: string) {
     super('label', styleName)
   }
 
-  getElem () {
+  getElem() {
     return this.element
-   }
+  }
 }
 
-export class StandartSpanMarker extends StandartHTMLElement {
-  element: HTMLSpanElement
-  constructor (styleName: string) {
-    super('span', styleName)
+export class StandartSvgMarker extends StandartHTMLElement {
+  element: HTMLElement
+  svg: SVGElement
+  icon: SVGElement
+  constructor(styleName: string, hrefId: string) {
+    super('div', styleName)
+
+    this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    this.svg.classList.add('svg-icon')
+
+    this.icon = document.createElementNS('http://www.w3.org/2000/svg', 'use')
+    this.icon.setAttributeNS('http://www.w3.org/1999/xlink', 'href', hrefId)
+
+    this.svg.append(this.icon)
+    this.element.append(this.svg)
   }
 
-  getElem () {
+  getElem() {
     return this.element
-   }
+  }
 }
 
 export class StandartTaskText extends StandartHTMLElement {
   element: HTMLParagraphElement
-  constructor (styleName: string, taskValue: string) {
+  constructor(styleName: string, taskValue: string) {
     super('p', styleName, taskValue)
   }
 
-  getElem () {
+  getElem() {
     return this.element
-   }
+  }
 }
